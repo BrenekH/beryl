@@ -1,8 +1,8 @@
-import { BrowserWindow, Menu, MenuItem } from "electron";
+import { BrowserWindow, ipcMain, IpcMainEvent, Menu, MenuItem } from "electron";
 const path = require("path");
 
 export default class Main {
-    static mainWindow: Electron.BrowserWindow;
+    static mainWindow: Electron.BrowserWindow | null;
     static application: Electron.App;
     static BrowserWindow;
 
@@ -22,9 +22,14 @@ export default class Main {
 			title: "Beryl",
 			webPreferences: {
 				show: false, // Don't show before maximizing to prevent a jarring flash.
+				nodeIntegration: true, // Fixes CommonJS errors when renderer.ts is compiled.
 				preload: path.join(__dirname, 'preload.js')
 			}
 		});
+
+		if (Main.mainWindow === null) { // Typescript being a dumb-dumb.
+			return
+		}
 
 		Main.mainWindow.maximize();
 		Main.mainWindow.show();
@@ -45,16 +50,28 @@ export default class Main {
 			submenu: [{
 			label: "Show DevTools",
 			accelerator: 'CommandOrControl+Shift+I',
-			click: () => { Main.mainWindow.webContents.openDevTools(); }
+			click: () => { if (Main.mainWindow !== null) { Main.mainWindow.webContents.openDevTools(); } }
 			}]
 		}));
 		Menu.setApplicationMenu(menu);
+
+		Main.mainWindow.webContents.on("did-finish-load", () => {
+			if (Main.mainWindow === null) {
+				return
+			}
+			Main.mainWindow.webContents.send("test", "Hello Renderer!");
+		});
     }
 
     static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
         Main.BrowserWindow = browserWindow;
         Main.application = app;
+
         Main.application.on('window-all-closed', Main.onWindowAllClosed);
         Main.application.on('ready', Main.onReady);
+
+		ipcMain.on("test", (event: IpcMainEvent, args: any[]) => {
+			console.log(args);
+		});
     }
 }
