@@ -1,5 +1,5 @@
 import { BrowserWindow, ipcMain, IpcMainEvent, Menu, MenuItem } from "electron";
-const path = require("path");
+import * as path from "path";
 
 export default class Main {
     static mainWindow: Electron.BrowserWindow | null;
@@ -22,8 +22,7 @@ export default class Main {
 			title: "Beryl",
 			webPreferences: {
 				show: false, // Don't show before maximizing to prevent a jarring flash.
-				nodeIntegration: true, // Fixes CommonJS errors when renderer.ts is compiled.
-				preload: path.join(__dirname, 'preload.js')
+				preload: path.resolve(__dirname, "preload.js")
 			}
 		});
 
