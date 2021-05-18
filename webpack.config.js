@@ -1,4 +1,3 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
@@ -33,7 +32,7 @@ module.exports = [
 		{
 			target: "electron-main",
 			entry: {
-				app: "./src/app.ts"
+				app: path.resolve(__dirname, "src", "app.ts")
 			}
 		},
 		commonConfig
@@ -42,7 +41,7 @@ module.exports = [
 		{
 			target: "electron-renderer",
 			entry: {
-				renderer: "./src/renderer.ts"
+				renderer: path.resolve(__dirname, "src", "renderer.ts")
 			},
 			plugins: [
 				new HtmlWebpackPlugin({
@@ -56,21 +55,9 @@ module.exports = [
 		{
 			target: "electron-preload",
 			entry: {
-				preload: "./src/preload.ts"
+				preload: path.resolve(__dirname, "src", "preload.ts")
 			}
 		},
 		commonConfig
-	),
-	{
-		plugins: [
-			new CopyWebpackPlugin({
-				patterns: [
-					{ from: "main.css" }
-				]
-			})
-		],
-		resolve: {
-			extensions: [".css"],
-		}
-	}
+	)
 ];
