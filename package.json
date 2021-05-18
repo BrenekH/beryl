@@ -1,0 +1,18 @@
+{
+  "name": "beryl-electron",
+  "version": "0.0.1-alpha.1",
+  "description": "Highly customizable timer.",
+  "main": "dist/app.js",
+  "scripts": {
+    "compile": "tsc",
+    "start": "npm run compile && electron ./dist/app.js"
+  },
+  "author": "Brenek Harrison",
+  "repository": "https://github.com/BrenekH/beryl-timing-system",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "electron": "^12.0.8",
+    "electron-reloader": "^1.2.1",
+    "typescript": "^4.2.4"
+  }
+}

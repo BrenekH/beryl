@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; frame-src 'self' blob:; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; frame-src 'self' data:; script-src 'self'">
+    <title>Beryl</title>
+    <link rel="stylesheet" href="./main.css">
+  </head>
+  <body>
+    <div class="header">
+      <h1 id="stage" class="text-center">End Game</h1>
+      <h1 id="time-remaining" class="text-center">120</h1>
+    </div>
+    <iframe id="intFrame" frameborder="0"></iframe>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
