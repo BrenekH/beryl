@@ -6,7 +6,7 @@ import { createMenu } from "./menu";
 export default class Main {
     static mainWindow: Electron.BrowserWindow | null;
     static application: Electron.App;
-    static BrowserWindow;
+    static BrowserWindow: any;
 	static plugins: Plugins;
 	static loadComplete: boolean;
 	static mainFunc: () => void;

@@ -5,5 +5,5 @@ export default class Plugins {
 		this.activatePluginDisplay = false;
 	}
 
-	load(s: string) {}
+	load(_: string) {}
 }

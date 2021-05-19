@@ -5,14 +5,14 @@ export {} // Allow for us to declare on global
 
 interface api {
 	send(channel: string, ...args: any[]): void
-	receive(channel: string, listener: (...args: any) => void)
+	receive(channel: string, listener: (...args: any) => void): void
 }
 
 declare global {
     interface Window { api: api; }
 }
 
-function getBlobURL(code, type) {
+function getBlobURL(code: string, type: string) {
 	const blob = new Blob([code], { type })
 	return URL.createObjectURL(blob)
 }
@@ -29,7 +29,8 @@ window.api.receive("toRender", (args: any) => {
 function createPluginIFrame(): void {
 	const iframeContainer = document.getElementById("iframe-container");
 	if (iframeContainer !== null && iframeContainer !== undefined) {
-		iframeContainer.innerHTML = `<iframe class="plugin-display" frameborder="0"></iframe>`;
+		// iframeContainer.innerHTML = `<iframe class="plugin-display" frameborder="0"></iframe>`;
+		iframeContainer.innerHTML = `<iframe class="plugin-display"></iframe>`;
 	}
 }
 
