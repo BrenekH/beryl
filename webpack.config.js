@@ -4,7 +4,8 @@ const path = require("path");
 const commonConfig = {
 	output: {
 		path: path.resolve(__dirname, "dist"),
-		filename: "[name].js"
+		filename: "[name].js",
+		assetModuleFilename: '[name][ext]'
 	},
 	module: {
 		rules: [
@@ -14,12 +15,12 @@ const commonConfig = {
 			},
 			{
 				test: /\.css$/,
-				loader: "css-loader"
+				type: "asset/resource"
 			}
 		]
 	},
 	resolve: {
-		extensions: [".js", ".ts", ".tsx", ".jsx", ".json"],
+		extensions: [".js", ".ts", ".tsx", ".jsx", ".json", ".css"],
 		fallback: {
 			"fs": false,
 			"path": false
@@ -32,7 +33,7 @@ module.exports = [
 		{
 			target: "electron-main",
 			entry: {
-				app: path.resolve(__dirname, "src", "app.ts")
+				app: "./src/app.ts"
 			}
 		},
 		commonConfig
@@ -41,7 +42,7 @@ module.exports = [
 		{
 			target: "electron-renderer",
 			entry: {
-				renderer: path.resolve(__dirname, "src", "renderer.ts")
+				renderer: "./src/renderer.ts"
 			},
 			plugins: [
 				new HtmlWebpackPlugin({
@@ -55,7 +56,7 @@ module.exports = [
 		{
 			target: "electron-preload",
 			entry: {
-				preload: path.resolve(__dirname, "src", "preload.ts")
+				preload: "./src/preload.ts"
 			}
 		},
 		commonConfig

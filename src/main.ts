@@ -1,6 +1,9 @@
 import { BrowserWindow, ipcMain, IpcMainEvent, Menu, MenuItem } from "electron";
 import * as path from "path";
 
+// Require main.css so that Webpack will copy it to the dist folder
+require("./main.css");
+
 export default class Main {
     static mainWindow: Electron.BrowserWindow | null;
     static application: Electron.App;
