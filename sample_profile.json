@@ -1,0 +1,32 @@
+{
+	"stages": [
+		{
+			"text": "AUTONOMOUS",
+			"foreground_color": "#ffffff",
+			"background_color": "#00aa00",
+			"begin_stage_sound": null,
+			"end_stage_sound": null,
+			"length": 10,
+			"offset": 110
+		},
+		{
+			"text": "TELEOP",
+			"foreground_color": "#ffffff",
+			"background_color": "#00aa00",
+			"begin_stage_sound": null,
+			"end_stage_sound": null,
+			"length": 80,
+			"offset": 30
+		},
+		{
+			"text": "END GAME",
+			"foreground_color": "#ffffff",
+			"background_color": "#333333",
+			"begin_stage_sound": null,
+			"end_stage_sound": null,
+			"length": 30,
+			"offset": 0
+		}
+	],
+	"plugins": []
+}
