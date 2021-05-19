@@ -11,6 +11,8 @@ export default class Main {
     static application: Electron.App;
     static BrowserWindow;
 	static plugins: Plugins;
+	static loadComplete: boolean;
+	static mainFunc: () => void;
 
 	private static onWindowAllClosed() {
         if (process.platform !== 'darwin') {
@@ -37,28 +39,32 @@ export default class Main {
 		}
 
 		Main.mainWindow.maximize();
-		Main.mainWindow.show();
 
-        Main.mainWindow.loadURL('file://' + __dirname + '/index.html');
-        Main.mainWindow.on('closed', Main.onClose);
+        Main.mainWindow.loadURL("file://" + __dirname + "/index.html");
+        Main.mainWindow.on("closed", Main.onClose);
+
+		Main.mainWindow?.webContents.on("did-finish-load", () => {
+			Main.mainWindow?.show();
+			Main.loadComplete = true;
+
+			Main.mainFunc();
+		});
 
 		Menu.setApplicationMenu(createMenu(Main.mainWindow));
-
-		Main.mainWindow.webContents.on("did-finish-load", () => {
-			if (Main.mainWindow === null) {
-				return
-			}
-			Main.mainWindow.webContents.send("toRender", "Hello Renderer!");
-		});
     }
 
     static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
-        Main.BrowserWindow = browserWindow;
+		Main.BrowserWindow = browserWindow;
         Main.application = app;
 
         Main.application.on('window-all-closed', Main.onWindowAllClosed);
         Main.application.on('ready', Main.onReady);
 
 		Main.plugins = new Plugins();
+		Main.plugins.load("");
+
+		Main.mainFunc = () => {
+			Main.mainWindow?.webContents.send("toRender", "pluginDisplay");
+		};
     }
 }

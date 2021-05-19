@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <title>Beryl</title>
     <link rel="stylesheet" href="./main.css">
+    <!-- renderer.ts is inserted by Webpack here-ish -->
   </head>
   <body>
-    <div class="header">
+    <div id="timing-container" class="header">
       <h1 id="stage" class="text-center">End Game</h1>
       <h1 id="time-remaining" class="text-center">120</h1>
     </div>
-    <iframe id="intFrame" frameborder="0"></iframe>
-
-    <script src="./renderer.js"></script>
+    <div id="iframe-container"></div>
   </body>
 </html>
