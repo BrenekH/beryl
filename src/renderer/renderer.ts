@@ -1,3 +1,5 @@
+import Timer from "./timer";
+
 // Require main.css so that Webpack will copy it to the dist folder
 require("./main.css");
 
@@ -40,3 +42,6 @@ function shoveTimingContainerToTop(): void {
 		timingContainer.style.marginBottom = "auto";
 	}
 }
+
+const timer = new Timer();
+timer.start();
