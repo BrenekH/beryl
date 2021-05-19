@@ -1,5 +1,5 @@
 {
-  "name": "beryl-electron",
+  "name": "beryl",
   "version": "0.0.1-alpha.1",
   "description": "Highly customizable timer.",
   "main": "dist/app.js",
@@ -12,7 +12,7 @@
     "make": "electron-forge make"
   },
   "author": "Brenek Harrison",
-  "repository": "https://github.com/BrenekH/beryl-timing-system",
+  "repository": "https://github.com/BrenekH/beryl",
   "license": "UNLICENSED",
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.55",
@@ -38,7 +38,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "beryl_electron"
+            "name": "beryl"
           }
         },
         {
