@@ -5,7 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "compile": "webpack --config webpack.config.js --mode production",
-    "start": "npm run compile && electron ./dist/app.js"
+    "clean": "node scripts/cleanDist.js",
+    "start": "npm run clean && npm run compile && electron ./dist/app.js"
   },
   "author": "Brenek Harrison",
   "repository": "https://github.com/BrenekH/beryl-timing-system",
