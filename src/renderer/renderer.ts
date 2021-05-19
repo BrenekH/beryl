@@ -1,3 +1,6 @@
+// Require main.css so that Webpack will copy it to the dist folder
+require("./main.css");
+
 export {} // Allow for us to declare on global
 
 interface api {

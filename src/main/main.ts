@@ -3,9 +3,6 @@ import * as path from "path";
 import Plugins from "./plugins";
 import { createMenu } from "./menu";
 
-// Require main.css so that Webpack will copy it to the dist folder
-require("./main.css");
-
 export default class Main {
     static mainWindow: Electron.BrowserWindow | null;
     static application: Electron.App;
@@ -64,7 +61,7 @@ export default class Main {
 		Main.plugins.load("");
 
 		Main.mainFunc = () => {
-			Main.mainWindow?.webContents.send("toRender", "pluginDisplay");
+			if (Main.plugins.activatePluginDisplay) Main.mainWindow?.webContents.send("toRender", "pluginDisplay");
 		};
     }
 }

@@ -33,7 +33,7 @@ module.exports = [
 		{
 			target: "electron-main",
 			entry: {
-				app: "./src/app.ts"
+				app: "./src/main/app.ts"
 			}
 		},
 		commonConfig
@@ -42,11 +42,11 @@ module.exports = [
 		{
 			target: "electron-renderer",
 			entry: {
-				renderer: "./src/renderer.ts"
+				renderer: "./src/renderer/renderer.ts"
 			},
 			plugins: [
 				new HtmlWebpackPlugin({
-					template: "src/index.html"
+					template: "src/renderer/index.html"
 				})
 			]
 		},
@@ -56,7 +56,7 @@ module.exports = [
 		{
 			target: "electron-preload",
 			entry: {
-				preload: "./src/preload.ts"
+				preload: "./src/renderer/preload.ts"
 			}
 		},
 		commonConfig
