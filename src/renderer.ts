@@ -4,11 +4,9 @@ function getBlobURL(code, type) {
 }
 
 // @ts-ignore
-window.api.receive("test", (event, args: any[]) => {
+window.api.receive("toRender", (args: any[]) => {
 	console.log(args);
 });
 
 // @ts-ignore
-window.api.send("test", "Hello Main!");
-
-console.log("Hi");
+window.api.send("toMain", "Hello Main!");

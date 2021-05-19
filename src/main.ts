@@ -1,5 +1,7 @@
-import { BrowserWindow, ipcMain, IpcMainEvent, Menu, MenuItem } from "electron";
+import { BrowserWindow, Menu } from "electron";
 import * as path from "path";
+import Plugins from "./plugins";
+import { createMenu } from "./menu";
 
 // Require main.css so that Webpack will copy it to the dist folder
 require("./main.css");
@@ -8,6 +10,7 @@ export default class Main {
     static mainWindow: Electron.BrowserWindow | null;
     static application: Electron.App;
     static BrowserWindow;
+	static plugins: Plugins;
 
 	private static onWindowAllClosed() {
         if (process.platform !== 'darwin') {
@@ -39,29 +42,13 @@ export default class Main {
         Main.mainWindow.loadURL('file://' + __dirname + '/index.html');
         Main.mainWindow.on('closed', Main.onClose);
 
-		const menu = new Menu();
-		menu.append(new MenuItem({
-			label: "View",
-			submenu: [{
-			accelerator: "F11",
-			role: "togglefullscreen"
-			}]
-		}));
-		menu.append(new MenuItem({
-			label: "About",
-			submenu: [{
-			label: "Show DevTools",
-			accelerator: 'CommandOrControl+Shift+I',
-			click: () => { if (Main.mainWindow !== null) { Main.mainWindow.webContents.openDevTools(); } }
-			}]
-		}));
-		Menu.setApplicationMenu(menu);
+		Menu.setApplicationMenu(createMenu(Main.mainWindow));
 
 		Main.mainWindow.webContents.on("did-finish-load", () => {
 			if (Main.mainWindow === null) {
 				return
 			}
-			Main.mainWindow.webContents.send("test", "Hello Renderer!");
+			Main.mainWindow.webContents.send("toRender", "Hello Renderer!");
 		});
     }
 
@@ -72,8 +59,6 @@ export default class Main {
         Main.application.on('window-all-closed', Main.onWindowAllClosed);
         Main.application.on('ready', Main.onReady);
 
-		ipcMain.on("test", (event: IpcMainEvent, args: any[]) => {
-			console.log(args);
-		});
+		Main.plugins = new Plugins();
     }
 }
