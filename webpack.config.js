@@ -25,7 +25,8 @@ const commonConfig = {
 			"fs": false,
 			"path": false
 		}
-	}
+	},
+	devtool: "source-map"
 };
 
 module.exports = [
