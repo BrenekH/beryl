@@ -109,8 +109,32 @@ export default class Main {
 				return
 			}
 
-			// TODO: Verify any sounds
-			// TODO: Verify color values (matches #000000 or #000 format)
+			// Verify any sounds and color values
+			stages.forEach((stage: Stage) => {
+				// Stat sound files
+				if (stage.begin_stage_sound !== null) {
+					fs.stat(stage.begin_stage_sound, (err: any | null) => {
+						if (err !== null) {
+							dialog.showErrorBox("Error finding file", `Could not stat ${stage.begin_stage_sound}`)
+						}
+					})
+				}
+				if (stage.end_stage_sound !== null) {
+					fs.stat(stage.end_stage_sound, (err: any | null) => {
+						if (err !== null) {
+							dialog.showErrorBox("Error finding file", `Could not stat ${stage.end_stage_sound}`)
+						}
+					})
+				}
+
+				// Verify color values (matches #000000 or #000 format)
+				if (!validColorString(stage.foreground_color)) {
+					dialog.showErrorBox("Incorrect color value", `'${stage.foreground_color}' is not a valid hexadecimal color value.`)
+				}
+				if (!validColorString(stage.background_color)) {
+					dialog.showErrorBox("Incorrect color value", `'${stage.background_color}' is not a valid hexadecimal color value.`)
+				}
+			})
 
 			Main.plugins.unload()
 
@@ -120,4 +144,17 @@ export default class Main {
 		})
 
 	}
+}
+
+function validColorString(s: string): boolean {
+	if (!s.startsWith("#")) return false
+
+	if (s.length !== 4 && s.length !== 7) return false
+
+	// I was going to use a parseInt trick to validate the hexadecimal, but it
+	// doesn't work when the string starts with 0. For example, 000000 which is a valid color code becomes 0.
+	const re = /#([\da-f]{3}){1,2}/i
+	if (!re.test(s)) return false
+
+	return true
 }
