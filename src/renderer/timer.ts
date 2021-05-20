@@ -1,3 +1,6 @@
+import { dialog } from "electron";
+import { Stage } from "../shared/types";
+
 export default class Timer {
 	running: boolean;
 	startDate: number;
@@ -7,14 +10,37 @@ export default class Timer {
 
 	intervalID: NodeJS.Timeout;
 
+	stages: Stage[];
+	currentStageIndex: number;
+
 	constructor() {
 		this.running = false;
 		this.value = 0;
 		this.startDate = dateNowSec();
-
-		this.time = 120;
-
+		this.time = 0;
 		this.intervalID = setTimeout(() => {}, 1);
+
+		this.stages = [
+			{
+				background_color: "",
+				begin_stage_sound: null,
+				end_stage_sound: null,
+				foreground_color: "",
+				length: 15,
+				offset: 15,
+				text: "AUTO",
+			},
+			{
+				background_color: "",
+				begin_stage_sound: null,
+				end_stage_sound: null,
+				foreground_color: "",
+				length: 15,
+				offset: 0,
+				text: "TELEOP",
+			}
+		];
+		this.currentStageIndex = 0;
 	}
 
 	start(): void {
@@ -22,7 +48,13 @@ export default class Timer {
 			if (ev.code == "Space") {
 				this.running = !this.running;
 				if (this.running) {
-					this.startDate = dateNowSec();
+					if (this.stages.length === 0) {
+						this.running = false;
+					} else {
+						this.currentStageIndex = 0;
+						this.time = this.stages[this.currentStageIndex].length;
+						this.startDate = dateNowSec();
+					}
 				}
 			}
 		});
@@ -31,14 +63,18 @@ export default class Timer {
 			if (this.running) {
 				this.value = this.time - Math.floor(dateNowSec() - this.startDate);
 				if (this.value <= 0) {
-					this.running = false;
-					this.setTimeRemainingDisplay("OFF");
-					return;
+					this.currentStageIndex++;
+					if (this.currentStageIndex >= this.stages.length) {
+						this.running = false;
+					} else {
+						this.time = this.stages[this.currentStageIndex].length;
+						this.value = this.time;
+						this.startDate = dateNowSec();
+					}
 				}
-				this.setTimeRemainingDisplay(this.value.toString());
-			} else {
-				this.setTimeRemainingDisplay("OFF");
 			}
+
+			this.render();
 		}, 50);
 	}
 
@@ -46,11 +82,30 @@ export default class Timer {
 		// TODO: Figure out how to cancel the interval.
 	}
 
-	setTimeRemainingDisplay(s: string) {
+	render(): void {
+		if (this.running) {
+			this.setStageText(this.stages[this.currentStageIndex].text);
+			this.setTimeRemaining((this.value + this.stages[this.currentStageIndex].offset).toString());
+		} else {
+			this.setStageText("OFF");
+			this.setTimeRemaining("0");
+		}
+	}
+
+	setTimeRemaining(s: string) {
 		const timeRemaining = document.getElementById("time-remaining");
 		if (timeRemaining) {
 			if (timeRemaining.innerText !== s) {
 				timeRemaining.innerText = s;
+			}
+		}
+	}
+
+	setStageText(s: string) {
+		const stageText = document.getElementById("stage-text");
+		if (stageText) {
+			if (stageText.innerText !== s) {
+				stageText.innerText = s;
 			}
 		}
 	}
