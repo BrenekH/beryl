@@ -42,6 +42,10 @@ export default class Timer {
 		}, 50);
 	}
 
+	dispose(): void {
+		// TODO: Figure out how to cancel the interval.
+	}
+
 	setTimeRemainingDisplay(s: string) {
 		const timeRemaining = document.getElementById("time-remaining");
 		if (timeRemaining) {
