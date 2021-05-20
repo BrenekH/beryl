@@ -3,6 +3,7 @@ import * as path from "path";
 import { BrowserWindow, dialog, Menu } from "electron";
 import Plugins from "./plugins";
 import { createMenu } from "./menu";
+import { Profile, Stage } from "../shared/types";
 
 export default class Main {
     static mainWindow: Electron.BrowserWindow | null;
@@ -104,19 +105,4 @@ export default class Main {
 		});
 
 	}
-}
-
-interface Profile {
-	stages: Stage[],
-	plugins: string[],
-}
-
-interface Stage {
-	text: string,
-	foreground_color: string,
-	background_color: string,
-	length: number,
-	offset: number,
-	begin_stage_sound: string | null,
-	end_stage_sound: string | null,
 }
