@@ -1,8 +1,8 @@
 export default class Plugins {
-	activatePluginDisplay: boolean;
+	activatePluginDisplay: boolean
 
 	constructor() {
-		this.activatePluginDisplay = false;
+		this.activatePluginDisplay = false
 	}
 
 	load(_: any[]) {}

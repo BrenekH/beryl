@@ -1,9 +1,9 @@
-import { BrowserWindow, dialog, Menu, MenuItem } from "electron";
-import { OpenDialogReturnValue } from "electron/main";
-import Main from "./main";
+import { BrowserWindow, dialog, Menu, MenuItem } from "electron"
+import { OpenDialogReturnValue } from "electron/main"
+import Main from "./main"
 
 export function createMenu(browserWindow: BrowserWindow) : Menu {
-	const menu = new Menu();
+	const menu = new Menu()
 
 	menu.append(new MenuItem({
 		label: "File",
@@ -21,12 +21,12 @@ export function createMenu(browserWindow: BrowserWindow) : Menu {
 					properties: ["openFile"]
 				}).then((dialogReturn: OpenDialogReturnValue) => {
 					if (!dialogReturn.canceled) {
-						Main.loadProfile(dialogReturn.filePaths[0]);
+						Main.loadProfile(dialogReturn.filePaths[0])
 					}
-				});
+				})
 			},
 		}]
-	}));
+	}))
 
 	menu.append(new MenuItem({
 		label: "View",
@@ -34,16 +34,16 @@ export function createMenu(browserWindow: BrowserWindow) : Menu {
 			accelerator: "F11",
 			role: "togglefullscreen"
 		}]
-	}));
+	}))
 
 	menu.append(new MenuItem({
 		label: "About",
 		submenu: [{
 			label: "Show DevTools",
 			accelerator: 'CommandOrControl+Shift+I',
-			click: () => { browserWindow.webContents.openDevTools(); }
+			click: () => { browserWindow.webContents.openDevTools() }
 		}]
-	}));
+	}))
 
-	return menu;
+	return menu
 }
