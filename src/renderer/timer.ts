@@ -72,6 +72,11 @@ export default class Timer {
 		}
 	}
 
+	updateStages(stages: Stage[]): void {
+		this.stages = stages
+		this.currentStageIndex = 0
+	}
+
 	setTimeRemaining(s: string) {
 		const timeRemaining = document.getElementById("time-remaining")
 		if (timeRemaining) {

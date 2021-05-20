@@ -12,3 +12,8 @@ export interface Stage {
 	begin_stage_sound: string | null,
 	end_stage_sound: string | null,
 }
+
+export interface ToRunnerIPC {
+	type: string,
+	data: null | Stage[],
+}

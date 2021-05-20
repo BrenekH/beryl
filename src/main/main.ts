@@ -100,6 +100,7 @@ export default class Main {
 			Main.plugins.unload()
 
 			// TODO: Send new stage information to renderer.
+			Main.mainWindow?.webContents.send("toRender", {type: "updateStages", data: stages})
 
 			Main.plugins.load(plugins)
 		})
