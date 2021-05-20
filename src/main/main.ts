@@ -60,7 +60,6 @@ export default class Main {
         Main.application.on('ready', Main.onReady)
 
 		Main.plugins = new Plugins()
-		Main.plugins.load([])
 
 		Main.mainFunc = () => {
 			if (Main.plugins.activatePluginDisplay) Main.mainWindow?.webContents.send("toRender", "pluginDisplay")
@@ -127,6 +126,8 @@ export default class Main {
 			Main.plugins.unload()
 
 			Main.mainWindow?.webContents.send("toRender", {type: "updateStages", data: stages})
+
+			Main.mainWindow?.setTitle(`Beryl - ${path.basename(filePath)}`)
 
 			Main.plugins.load(plugins)
 		})
