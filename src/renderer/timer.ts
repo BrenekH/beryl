@@ -4,9 +4,7 @@ export default class Timer {
 	running: boolean
 	startDate: number
 	value: number
-
 	time: number
-
 	intervalID: NodeJS.Timeout
 
 	stages: Stage[]
@@ -34,6 +32,10 @@ export default class Timer {
 						this.currentStageIndex = 0
 						this.time = this.stages[this.currentStageIndex].length
 						this.startDate = dateNowSec()
+
+						if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
+							window.api.send("toMain", {type: "playSound", data: this.stages[this.currentStageIndex].begin_stage_sound})
+						}
 					}
 				}
 			}
@@ -50,6 +52,14 @@ export default class Timer {
 						this.time = this.stages[this.currentStageIndex].length
 						this.value = this.time
 						this.startDate = dateNowSec()
+
+						if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
+							window.api.send("toMain", {type: "playSound", data: this.stages[this.currentStageIndex].begin_stage_sound})
+						}
+
+						if (this.stages[this.currentStageIndex-1].end_stage_sound !== null) {
+							window.api.send("toMain", {type: "playSound", data: this.stages[this.currentStageIndex-1].end_stage_sound})
+						}
 					}
 				}
 			}

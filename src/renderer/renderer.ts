@@ -1,5 +1,5 @@
 import Timer from "./timer"
-import { ToRunnerIPC } from "../shared/types"
+import { IPC } from "../shared/types"
 
 // Require main.css so that Webpack will copy it to the dist folder
 require("./main.css")
@@ -20,14 +20,14 @@ function getBlobURL(code: string, type: string) {
 	return URL.createObjectURL(blob)
 }
 
-window.api.receive("toRender", (event: ToRunnerIPC) => {
+window.api.receive("toRender", (event: IPC) => {
 	switch (event.type) {
 		case "pluginDisplay":
 			createPluginIFrame()
 			shoveTimingContainerToTop()
 			break;
 		case "updateStages":
-			if (event.data !== null) timer.updateStages(event.data)
+			if (event.data !== null && typeof event.data !== "string") timer.updateStages(event.data)
 			break;
 		default:
 			console.error(`Unrecognized event type: '${event.type}'`)
