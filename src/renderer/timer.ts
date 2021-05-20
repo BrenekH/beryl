@@ -20,26 +20,7 @@ export default class Timer {
 		this.time = 0;
 		this.intervalID = setTimeout(() => {}, 1);
 
-		this.stages = [
-			{
-				background_color: "",
-				begin_stage_sound: null,
-				end_stage_sound: null,
-				foreground_color: "",
-				length: 15,
-				offset: 15,
-				text: "AUTO",
-			},
-			{
-				background_color: "",
-				begin_stage_sound: null,
-				end_stage_sound: null,
-				foreground_color: "",
-				length: 15,
-				offset: 0,
-				text: "TELEOP",
-			}
-		];
+		this.stages = [];
 		this.currentStageIndex = 0;
 	}
 
