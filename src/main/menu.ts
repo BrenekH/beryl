@@ -1,5 +1,6 @@
 import { BrowserWindow, dialog, Menu, MenuItem } from "electron";
 import { OpenDialogReturnValue } from "electron/main";
+import Main from "./main";
 
 export function createMenu(browserWindow: BrowserWindow) : Menu {
 	const menu = new Menu();
@@ -18,8 +19,10 @@ export function createMenu(browserWindow: BrowserWindow) : Menu {
 						{name: "All Files", extensions: ["*"]}
 					   ],
 					properties: ["openFile"]
-				}).then((filePath: OpenDialogReturnValue) => {
-					console.log(filePath);
+				}).then((dialogReturn: OpenDialogReturnValue) => {
+					if (!dialogReturn.canceled) {
+						Main.loadProfile(dialogReturn.filePaths[0]);
+					}
 				});
 			},
 		}]

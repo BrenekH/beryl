@@ -5,5 +5,9 @@ export default class Plugins {
 		this.activatePluginDisplay = false;
 	}
 
-	load(_: string) {}
+	load(_: any[]) {}
+
+	unload(): void {
+
+	}
 }
