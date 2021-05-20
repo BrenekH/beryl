@@ -15,7 +15,10 @@ export default class Timer {
 		this.value = 0
 		this.startDate = dateNowSec()
 		this.time = 0
+
+		// Instantiate and destroy intervalID to avoid Typescript complaints.
 		this.intervalID = setTimeout(() => {}, 1)
+		clearTimeout(this.intervalID)
 
 		this.stages = []
 		this.currentStageIndex = 0
@@ -69,7 +72,7 @@ export default class Timer {
 	}
 
 	dispose(): void {
-		// TODO: Figure out how to cancel the interval.
+		clearInterval(this.intervalID)
 	}
 
 	render(): void {
