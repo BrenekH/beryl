@@ -29,8 +29,7 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
-    "sound-play": "^1.1.0"
+    "electron-squirrel-startup": "^1.0.0"
   },
   "config": {
     "forge": {

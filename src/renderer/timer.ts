@@ -34,7 +34,7 @@ export default class Timer {
 						this.startDate = dateNowSec()
 
 						if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
-							window.api.send("toMain", {type: "playSound", data: this.stages[this.currentStageIndex].begin_stage_sound})
+							new Audio(`file://${this.stages[this.currentStageIndex].begin_stage_sound}`).play()
 						}
 					}
 				}
@@ -45,6 +45,10 @@ export default class Timer {
 			if (this.running) {
 				this.value = this.time - Math.floor(dateNowSec() - this.startDate)
 				if (this.value <= 0) {
+					if (this.stages[this.currentStageIndex].end_stage_sound !== null) {
+						new Audio(`file://${this.stages[this.currentStageIndex].end_stage_sound}`).play()
+					}
+
 					this.currentStageIndex++
 					if (this.currentStageIndex >= this.stages.length) {
 						this.running = false
@@ -54,11 +58,7 @@ export default class Timer {
 						this.startDate = dateNowSec()
 
 						if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
-							window.api.send("toMain", {type: "playSound", data: this.stages[this.currentStageIndex].begin_stage_sound})
-						}
-
-						if (this.stages[this.currentStageIndex-1].end_stage_sound !== null) {
-							window.api.send("toMain", {type: "playSound", data: this.stages[this.currentStageIndex-1].end_stage_sound})
+							new Audio(`file://${this.stages[this.currentStageIndex].begin_stage_sound}`).play()
 						}
 					}
 				}

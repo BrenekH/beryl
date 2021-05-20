@@ -1,10 +1,9 @@
 import * as fs from "fs"
 import * as path from "path"
-import * as sound from "sound-play"
-import { ipcMain, BrowserWindow, dialog, Menu, IpcMainEvent } from "electron"
+import { BrowserWindow, dialog, Menu } from "electron"
 import Plugins from "./plugins"
 import { createMenu } from "./menu"
-import { IPC, Profile, Stage } from "../shared/types"
+import { Profile, Stage } from "../shared/types"
 
 export default class Main {
     static mainWindow: Electron.BrowserWindow | null
@@ -66,17 +65,6 @@ export default class Main {
 		Main.mainFunc = () => {
 			if (Main.plugins.activatePluginDisplay) Main.mainWindow?.webContents.send("toRender", "pluginDisplay")
 		}
-
-		ipcMain.on("toMain", (_: IpcMainEvent, args: IPC) => {
-			switch (args.type) {
-				case "playSound":
-				if (typeof args.data === "string") sound.play(args.data).catch((err: any) => {console.error(err)})
-					break
-				default:
-					console.error(`Unknown event type: '${args.type}'`)
-					break
-			}
-		})
     }
 
 	static loadProfile(filePath: string) {
