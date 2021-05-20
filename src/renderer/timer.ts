@@ -77,9 +77,11 @@ export default class Timer {
 
 	render(): void {
 		if (this.running) {
+			setColors(this.stages[this.currentStageIndex])
 			this.setStageText(this.stages[this.currentStageIndex].text)
 			this.setTimeRemaining((this.value + this.stages[this.currentStageIndex].offset).toString())
 		} else {
+			resetColors()
 			this.setStageText("OFF")
 			this.setTimeRemaining("0")
 		}
@@ -111,4 +113,14 @@ export default class Timer {
 
 function dateNowSec(): number {
 	return Date.now() / 1000
+}
+
+function setColors(stage: Stage) {
+	document.body.style.backgroundColor = stage.background_color
+	document.body.style.color = stage.foreground_color
+}
+
+function resetColors() {
+	document.body.style.backgroundColor = "#333"
+	document.body.style.color = "#cacaca"
 }
