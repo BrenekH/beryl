@@ -43,7 +43,7 @@ export default class PluginManager {
 				// Remove plugin module from require cache (eval is used to prevent webpack from messing with the line)
 				eval("delete require.cache[require.resolve(pluginPath)]")
 
-				const instantiatedPlugin: Plugin = new plugin.default(new InjectToPlugin())
+				const instantiatedPlugin: Plugin = new plugin.default(new PluginHandler())
 
 				instantiatedPlugin.activate()
 
@@ -66,20 +66,31 @@ export default class PluginManager {
 	}
 }
 
-class InjectToPlugin {
+// TODO: Implement class
+class PluginHandler {
+	// Registers a handler for when the Timer Status changes
 	onTimerChange(callback: (event: any) => void) {console.log(callback)}
 
+	// Registers a handler for when the Timer Stage changes
 	onStageChange(callback: (event: any) => void) {console.log(callback)}
 
+	// Sets the plugin html to the provided string
 	setHTML(htmlString: string) {console.log(htmlString)}
 
-	play() {}
+	// Clears the plugin html and removes the iframe from the DOM
+	clearHTML() {}
 
+	// Starts the timer
+	start() {}
+
+	// Pauses the timer
 	pause() {}
 
+	// Stops the timer
 	stop() {}
 
-	current() {}
+	// Returns the timer's current status
+	current(): TimerStatus { return TimerStatus.stopped }
 }
 
 interface Plugin {
@@ -89,4 +100,10 @@ interface Plugin {
 
 interface PackageJSON {
 	main: string
+}
+
+enum TimerStatus {
+	started = "started",
+	stopped = "stopped",
+	paused = "paused",
 }
