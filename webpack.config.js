@@ -17,7 +17,12 @@ const commonConfig = {
 				test: /\.css$/,
 				type: "asset/resource"
 			}
-		]
+		],
+		parser: {
+			javascript: {
+				commonjsMagicComments: true,
+			},
+		},
 	},
 	resolve: {
 		extensions: [".js", ".ts", ".tsx", ".jsx", ".json", ".css"],

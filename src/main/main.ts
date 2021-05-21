@@ -61,6 +61,8 @@ export default class Main {
 
 		Main.plugins = new Plugins()
 
+		Main.plugins.load(["I:\\Programming\\Random\\beryl-sample-plugin\\dist\\index.js"])
+
 		Main.mainFunc = () => {
 			if (Main.plugins.activatePluginDisplay) Main.mainWindow?.webContents.send("toRender", "pluginDisplay")
 		}
