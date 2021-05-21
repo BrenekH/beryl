@@ -28,5 +28,7 @@
 			"offset": 0
 		}
 	],
-	"plugins": []
+	"plugins": [
+		"I:\\Programming\\Random\\beryl-sample-plugin"
+	]
 }

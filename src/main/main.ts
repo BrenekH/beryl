@@ -6,26 +6,28 @@ import { createMenu } from "./menu"
 import { Profile, Stage } from "../shared/types"
 
 export default class Main {
-    static mainWindow: Electron.BrowserWindow | null
-    static application: Electron.App
-    static BrowserWindow: any
+	static mainWindow: Electron.BrowserWindow | null
+	static application: Electron.App
+	static BrowserWindow: any
 	static pluginManager: PluginManager
 	static loadComplete: boolean
 	static mainFunc: () => void
 
 	private static onWindowAllClosed() {
-        if (process.platform !== 'darwin') {
-            Main.application.quit()
-        }
-    }
+		if (process.platform !== 'darwin') {
+			Main.application.quit()
+		}
+	}
 
-    private static onClose() {
-        // Dereference the window object.
-        Main.mainWindow = null
-    }
+	private static onClose() {
+		Main.pluginManager?.unload()
 
-    private static onReady() {
-        Main.mainWindow = new Main.BrowserWindow({
+		// Dereference the window object.
+		Main.mainWindow = null
+	}
+
+	private static onReady() {
+		Main.mainWindow = new Main.BrowserWindow({
 			title: "Beryl",
 			webPreferences: {
 				show: false, // Don't show before maximizing to prevent a jarring flash.
@@ -39,8 +41,8 @@ export default class Main {
 
 		Main.mainWindow.maximize()
 
-        Main.mainWindow.loadURL("file://" + __dirname + "/index.html")
-        Main.mainWindow.on("closed", Main.onClose)
+		Main.mainWindow.loadURL("file://" + __dirname + "/index.html")
+		Main.mainWindow.on("closed", Main.onClose)
 
 		Main.mainWindow?.webContents.on("did-finish-load", () => {
 			Main.mainWindow?.show()
@@ -51,21 +53,21 @@ export default class Main {
 		})
 
 		Menu.setApplicationMenu(createMenu(Main.mainWindow))
-    }
+	}
 
-    static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
+	static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
 		Main.BrowserWindow = browserWindow
-        Main.application = app
+		Main.application = app
 
-        Main.application.on('window-all-closed', Main.onWindowAllClosed)
-        Main.application.on('ready', Main.onReady)
+		Main.application.on('window-all-closed', Main.onWindowAllClosed)
+		Main.application.on('ready', Main.onReady)
 
 		Main.pluginManager = new PluginManager()
 
 		Main.mainFunc = () => {
 			Main.pluginManager.setMainWindow(Main.mainWindow as BrowserWindow)
 		}
-    }
+	}
 
 	static loadProfile(filePath: string) {
 		fs.readFile(filePath, (err, data) => {
@@ -132,7 +134,6 @@ export default class Main {
 
 			Main.pluginManager.load(plugins)
 		})
-
 	}
 }
 
