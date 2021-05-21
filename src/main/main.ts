@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import { BrowserWindow, dialog, Menu } from "electron"
-import Plugins from "./plugins"
+import PluginManager from "./plugins"
 import { createMenu } from "./menu"
 import { Profile, Stage } from "../shared/types"
 
@@ -9,7 +9,7 @@ export default class Main {
     static mainWindow: Electron.BrowserWindow | null
     static application: Electron.App
     static BrowserWindow: any
-	static plugins: Plugins
+	static pluginManager: PluginManager
 	static loadComplete: boolean
 	static mainFunc: () => void
 
@@ -46,7 +46,8 @@ export default class Main {
 			Main.mainWindow?.show()
 			Main.loadComplete = true
 
-			Main.mainFunc()
+			// Just in case an error is thrown in main before mainFunc is defined
+			if (typeof Main.mainFunc === "function") Main.mainFunc()
 		})
 
 		Menu.setApplicationMenu(createMenu(Main.mainWindow))
@@ -59,12 +60,10 @@ export default class Main {
         Main.application.on('window-all-closed', Main.onWindowAllClosed)
         Main.application.on('ready', Main.onReady)
 
-		Main.plugins = new Plugins()
-
-		Main.plugins.load(["I:\\Programming\\Random\\beryl-sample-plugin\\dist\\index.js"])
+		Main.pluginManager = new PluginManager()
 
 		Main.mainFunc = () => {
-			if (Main.plugins.activatePluginDisplay) Main.mainWindow?.webContents.send("toRender", "pluginDisplay")
+			Main.pluginManager.setMainWindow(Main.mainWindow as BrowserWindow)
 		}
     }
 
@@ -125,13 +124,13 @@ export default class Main {
 				}
 			})
 
-			Main.plugins.unload()
+			Main.pluginManager.unload()
 
 			Main.mainWindow?.webContents.send("toRender", {type: "updateStages", data: stages})
 
 			Main.mainWindow?.setTitle(`Beryl - ${path.basename(filePath)}`)
 
-			Main.plugins.load(plugins)
+			Main.pluginManager.load(plugins)
 		})
 
 	}
