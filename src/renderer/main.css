@@ -24,3 +24,21 @@ body {
 	align-self: center;
 	padding: 0.5rem;
 }
+
+.plugin-display {
+	width: 100%;
+	height: 100%;
+}
+
+.iframe-active {
+	width: 100vw;
+	height: 100%;
+}
+
+#stage-text {
+	margin-top: 0;
+}
+
+#time-remaining {
+	margin-bottom: .5rem;
+}

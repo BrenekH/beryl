@@ -6,14 +6,15 @@ export function getBlobURL(code: string, type: string) {
 export function createPluginIFrame(): void {
 	const iframeContainer = document.getElementById("iframe-container")
 	if (iframeContainer !== null && iframeContainer !== undefined) {
-		// iframeContainer.innerHTML = `<iframe class="plugin-display" frameborder="0"></iframe>`
-		iframeContainer.innerHTML = `<iframe id="plugin-iframe" class="plugin-display"></iframe>`
+		iframeContainer.classList.add("iframe-active")
+		iframeContainer.innerHTML = `<iframe id="plugin-iframe" class="plugin-display" frameborder="0"></iframe>`
 	}
 }
 
 export function destroyPluginIFrame() {
 	const iframeContainer = document.getElementById("iframe-container")
 	if (iframeContainer !== null && iframeContainer !== undefined) {
+		iframeContainer.classList.remove("iframe-active")
 		iframeContainer.innerHTML = ""
 	}
 }
