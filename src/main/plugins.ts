@@ -5,7 +5,9 @@ import { BrowserWindow } from "electron"
 export default class PluginManager {
 	activatePluginDisplay: boolean
 	mainWindow: BrowserWindow | null
-	activePlugins: Array<Plugin>
+	activePlugins: Plugin[]
+	statusHandlers: ((event: TimerStatus) => void)[]
+	stageHandlers: ((event: any) => void)[]
 
 	timerCurrentStatus: TimerStatus
 
@@ -13,6 +15,8 @@ export default class PluginManager {
 		this.activatePluginDisplay = false
 		this.mainWindow = null
 		this.activePlugins = []
+		this.statusHandlers = []
+		this.stageHandlers = []
 
 		this.timerCurrentStatus = TimerStatus.stopped
 	}
@@ -62,22 +66,40 @@ export default class PluginManager {
 	}
 
 	unload(): void {
-		// Deactivate plugins
 		const pluginAmount = this.activePlugins.length
 		for (let i = 0; i < pluginAmount; i++) {
 			const plugin = this.activePlugins.pop();
 			plugin?.deactivate()
 		}
 
-		// TODO: Remove status and stage change callback functions
+		this.statusHandlers = []
+		this.stageHandlers = []
 	}
 
 	triggerStatusChange(newStatus: TimerStatus): void {
-		console.log(newStatus)
+		this.statusHandlers.forEach(
+			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this operator.
+			function(handler: (event: TimerStatus) => void) {
+				handler(newStatus)
+			}
+		)
 	}
 
 	triggerStageChange(stageInfo: any): void {
-		console.log(stageInfo)
+		this.stageHandlers.forEach(
+			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this operator.
+			function(handler: (event: any) => void) {
+				handler(stageInfo)
+			}
+		)
+	}
+
+	registerStatusChangeHandler(handler: (event: TimerStatus) => void) {
+		this.statusHandlers.push(handler)
+	}
+
+	registerStageChangeHandler(handler: (event: any) => void) {
+		this.stageHandlers.push(handler)
 	}
 }
 
@@ -89,10 +111,14 @@ class PluginAPI {
 	}
 
 	// Registers a handler for when the Timer Status changes
-	onStatusChange(callback: (event: any) => void) {console.log(callback)}
+	onStatusChange(callback: (event: TimerStatus) => void) {
+		this._parent.registerStatusChangeHandler(callback)
+	}
 
 	// Registers a handler for when the Timer Stage changes
-	onStageChange(callback: (event: any) => void) {console.log(callback)}
+	onStageChange(callback: (event: any) => void) {
+		this._parent.registerStageChangeHandler(callback)
+	}
 
 	// Sets the plugin html to the provided string
 	setHTML(htmlString: string) {
