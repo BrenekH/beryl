@@ -60,7 +60,14 @@
         },
         {
           "name": "@electron-forge/maker-deb",
-          "config": {}
+          "config": {
+            "options": {
+              "name": "beryl",
+              "maintainer": "Brenek Harrison",
+              "homepage": "https://github.com/BrenekH/beryl",
+              "icon": "./src/icons/64x64.png"
+            }
+          }
         },
         {
           "name": "@electron-forge/maker-rpm",
