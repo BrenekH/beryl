@@ -15,5 +15,5 @@ export interface Stage {
 
 export interface IPC {
 	type: string,
-	data: null | Stage[],
+	data: null | Stage[] | string,
 }
