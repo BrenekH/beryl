@@ -13,7 +13,23 @@ export interface Stage {
 	end_stage_sound: string | null,
 }
 
-export interface IPC {
+export interface ToRenderIPC {
 	type: string,
 	data: null | Stage[] | string,
+}
+
+export interface ToPluginsIPC {
+	type: ToPluginsIPCType,
+	data: any,
+}
+
+export enum ToPluginsIPCType {
+	statusChange = "statusChange",
+	stageChange = "stageChange",
+}
+
+export enum TimerStatus {
+	started = "started",
+	stopped = "stopped",
+	paused = "paused",
 }

@@ -1,6 +1,6 @@
 import * as util from "./util"
 import Timer from "./timer"
-import { IPC } from "../shared/types"
+import { ToRenderIPC } from "../shared/types"
 
 // Require main.css so that Webpack will copy it to the dist folder
 require("./main.css")
@@ -16,7 +16,7 @@ declare global {
     interface Window { api: api }
 }
 
-window.api.receive("toRender", (event: IPC) => {
+window.api.receive("toRender", (event: ToRenderIPC) => {
 	switch (event.type) {
 		case "updateStages":
 			if (event.data !== null && typeof event.data !== "string") timer.updateStages(event.data)

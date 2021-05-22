@@ -1,4 +1,4 @@
-import { Stage } from "../shared/types"
+import { Stage, ToPluginsIPCType, TimerStatus } from "../shared/types"
 
 export default class Timer {
 	running: boolean
@@ -46,6 +46,8 @@ export default class Timer {
 					this.currentStageIndex++
 					if (this.currentStageIndex >= this.stages.length) {
 						this.running = false
+
+						window.api.send("toPlugins", {type: ToPluginsIPCType.statusChange, data: TimerStatus.stopped})
 					} else {
 						this.time = this.stages[this.currentStageIndex].length
 						this.value = this.time
@@ -54,6 +56,8 @@ export default class Timer {
 						if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
 							new Audio(`file://${this.stages[this.currentStageIndex].begin_stage_sound}`).play()
 						}
+
+						window.api.send("toPlugins", {type: ToPluginsIPCType.stageChange, data: this.stages[this.currentStageIndex]})
 					}
 				}
 			}
@@ -119,15 +123,20 @@ export default class Timer {
 			if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
 				new Audio(`file://${this.stages[this.currentStageIndex].begin_stage_sound}`).play()
 			}
+
+			window.api.send("toPlugins", {type: ToPluginsIPCType.stageChange, data: this.stages[this.currentStageIndex]})
+			window.api.send("toPlugins", {type: ToPluginsIPCType.statusChange, data: TimerStatus.started})
 		}
 	}
 
 	pause() {
 		// TODO: Implement
+		window.api.send("toPlugins", {type: ToPluginsIPCType.statusChange, data: TimerStatus.paused})
 	}
 
 	stop() {
 		this.running = false
+		window.api.send("toPlugins", {type: ToPluginsIPCType.statusChange, data: TimerStatus.stopped})
 	}
 }
 

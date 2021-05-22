@@ -1,6 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
-import { BrowserWindow } from "electron"
+import { BrowserWindow, ipcMain } from "electron"
+import { ToPluginsIPC, ToPluginsIPCType, TimerStatus } from "../shared/types"
 
 export default class PluginManager {
 	activatePluginDisplay: boolean
@@ -19,6 +20,20 @@ export default class PluginManager {
 		this.stageHandlers = []
 
 		this.timerCurrentStatus = TimerStatus.stopped
+
+		ipcMain.on("toPlugins", (_, args: ToPluginsIPC) => {
+			switch (args.type) {
+				case ToPluginsIPCType.statusChange:
+					this.triggerStatusChange(args.data)
+					break
+				case ToPluginsIPCType.stageChange:
+					this.triggerStageChange(args.data)
+					break
+				default:
+					console.error(`Unrecognized To Plugins IPC Type: ${args.type}`)
+					break
+			}
+		})
 	}
 
 	load(toLoad: string[]) {
@@ -167,10 +182,4 @@ interface Plugin {
 
 interface PackageJSON {
 	main: string
-}
-
-enum TimerStatus {
-	started = "started",
-	stopped = "stopped",
-	paused = "paused",
 }
