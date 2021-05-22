@@ -122,27 +122,27 @@ class PluginAPI {
 
 	// Sets the plugin html to the provided string
 	setHTML(htmlString: string) {
-		this._parent.mainWindow?.webContents.send("toRenderer", {type: "setIframeContent", data: htmlString})
+		this._parent.mainWindow?.webContents.send("toRender", {type: "setIframeContent", data: htmlString})
 	}
 
 	// Clears the plugin html and removes the iframe from the DOM
 	clearHTML() {
-		this._parent.mainWindow?.webContents.send("toRenderer", {type: "clearIframe"})
+		this._parent.mainWindow?.webContents.send("toRender", {type: "clearIframe"})
 	}
 
 	// Starts the timer
 	start() {
-		this._parent.mainWindow?.webContents.send("toRenderer", {type: "startTimer"})
+		this._parent.mainWindow?.webContents.send("toRender", {type: "startTimer"})
 	}
 
 	// Pauses the timer
 	pause() {
-		this._parent.mainWindow?.webContents.send("toRenderer", {type: "pauseTimer"})
+		this._parent.mainWindow?.webContents.send("toRender", {type: "pauseTimer"})
 	}
 
 	// Stops the timer
 	stop() {
-		this._parent.mainWindow?.webContents.send("toRenderer", {type: "stopTimer"})
+		this._parent.mainWindow?.webContents.send("toRender", {type: "stopTimer"})
 	}
 
 	// Returns the timer's current status
