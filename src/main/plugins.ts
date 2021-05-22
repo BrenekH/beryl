@@ -144,6 +144,8 @@ class PluginAPI {
 
 	// Pauses the timer
 	pause() {
+		// This isn't something I'm exposing to plugins since it's not even a timer feature currently
+		return
 		this._parent.mainWindow?.webContents.send("toRender", {type: "pauseTimer"})
 	}
 
