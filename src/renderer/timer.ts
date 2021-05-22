@@ -24,22 +24,13 @@ export default class Timer {
 		this.currentStageIndex = 0
 	}
 
-	start(): void {
+	init(): void {
 		document.addEventListener("keyup", (ev: KeyboardEvent) => {
 			if (ev.code == "Space") {
-				this.running = !this.running
-				if (this.running) {
-					if (this.stages.length === 0) {
-						this.running = false
-					} else {
-						this.currentStageIndex = 0
-						this.time = this.stages[this.currentStageIndex].length
-						this.startDate = dateNowSec()
-
-						if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
-							new Audio(`file://${this.stages[this.currentStageIndex].begin_stage_sound}`).play()
-						}
-					}
+				if (!this.running) {
+					this.start()
+				} else {
+					this.stop()
 				}
 			}
 		})
@@ -108,6 +99,35 @@ export default class Timer {
 				stageText.innerText = s
 			}
 		}
+	}
+
+	start() {
+		if (this.running) {
+			// Don't do anything to a running timer
+			return
+		}
+
+		this.running = true
+
+		if (this.stages.length === 0) {
+			this.running = false
+		} else {
+			this.currentStageIndex = 0
+			this.time = this.stages[this.currentStageIndex].length
+			this.startDate = dateNowSec()
+
+			if (this.stages[this.currentStageIndex].begin_stage_sound !== null) {
+				new Audio(`file://${this.stages[this.currentStageIndex].begin_stage_sound}`).play()
+			}
+		}
+	}
+
+	pause() {
+		// TODO: Implement
+	}
+
+	stop() {
+		this.running = false
 	}
 }
 

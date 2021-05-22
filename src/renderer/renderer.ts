@@ -32,13 +32,13 @@ window.api.receive("toRender", (event: IPC) => {
 			util.returnTimingContainerToCenter()
 			break
 		case "startTimer":
-			// TODO: Implement
+			timer.start()
 			break
 		case "pauseTimer":
-			// TODO: Implement
+			timer.pause()
 			break
 		case "stopTimer":
-			// TODO: Implement
+			timer.stop()
 			break
 		default:
 			console.error(`Unrecognized event type: '${event.type}'`)
@@ -47,4 +47,4 @@ window.api.receive("toRender", (event: IPC) => {
 })
 
 const timer = new Timer()
-timer.start()
+timer.init()
