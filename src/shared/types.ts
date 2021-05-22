@@ -1,6 +1,11 @@
 export interface Profile {
 	stages: Stage[],
-	plugins: string[],
+	plugins: ProfilePluginDef[],
+}
+
+export interface ProfilePluginDef {
+	plugin: string,
+	config: any,
 }
 
 export interface Stage {

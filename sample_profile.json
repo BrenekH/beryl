@@ -29,6 +29,11 @@
 		}
 	],
 	"plugins": [
-		"I:\\Programming\\Random\\beryl-sample-plugin"
+		{
+			"plugin": "I:\\Programming\\Random\\beryl-sample-plugin",
+			"config": {
+				"text": "Hello, World!"
+			}
+		}
 	]
 }

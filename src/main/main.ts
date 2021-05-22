@@ -3,7 +3,7 @@ import * as path from "path"
 import { BrowserWindow, dialog, Menu } from "electron"
 import PluginManager from "./plugins"
 import { createMenu } from "./menu"
-import { Profile, Stage } from "../shared/types"
+import { Profile, ProfilePluginDef, Stage } from "../shared/types"
 
 export default class Main {
 	static mainWindow: Electron.BrowserWindow | null
@@ -85,7 +85,7 @@ export default class Main {
 			}
 
 			const stages: Stage[] = profile.stages
-			const plugins: string[] = profile.plugins
+			const plugins: ProfilePluginDef[] = profile.plugins
 
 			if (stages === undefined) {
 				console.error(`Stages was undefined loading ${filePath}`)

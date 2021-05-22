@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import { BrowserWindow, ipcMain } from "electron"
-import { ToPluginsIPC, ToPluginsIPCType, TimerStatus } from "../shared/types"
+import { ToPluginsIPC, ToPluginsIPCType, TimerStatus, ProfilePluginDef } from "../shared/types"
 
 export default class PluginManager {
 	activatePluginDisplay: boolean
@@ -36,10 +36,11 @@ export default class PluginManager {
 		})
 	}
 
-	load(toLoad: string[]) {
-		toLoad.forEach((folderPath: string) => {
-			// folderPath should be the location of a valid npm package folder with a package.json
-			const packageJSONPath = path.resolve(folderPath, "package.json")
+	load(toLoad: ProfilePluginDef[]) {
+		toLoad.forEach((jsonPlugin: ProfilePluginDef) => {
+			// jsonPlugin.plugin should be the location of a valid npm package folder with a package.json
+			// TODO: Allow jsonPlugin.plugin to be a simple string that maps to a previously installed plugin
+			const packageJSONPath = path.resolve(jsonPlugin.plugin, "package.json")
 
 			fs.readFile(packageJSONPath, (err: any, data: Buffer) => {
 				if (err) {
@@ -60,13 +61,13 @@ export default class PluginManager {
 					return
 				}
 
-				const pluginPath = path.resolve(folderPath, packageJSON.main)
+				const pluginPath = path.resolve(jsonPlugin.plugin, packageJSON.main)
 				const plugin = require(/* webpackIgnore: true */ pluginPath)
 
 				// Remove plugin module from require cache (eval is used to prevent webpack from messing with the line)
 				eval("delete require.cache[require.resolve(pluginPath)]")
 
-				const instantiatedPlugin: Plugin = new plugin.default(new PluginAPI(this))
+				const instantiatedPlugin: Plugin = new plugin.default(new PluginAPI(this), jsonPlugin.config)
 
 				instantiatedPlugin.activate()
 
