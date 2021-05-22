@@ -34,7 +34,16 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./src/icons/icon"
+        "icon": "./src/icons/icon",
+        "ignore": [
+          "node_modules",
+          "scripts",
+          "src",
+          "\\.gitignore",
+          "sample_profile\\.json",
+          "tsconfig\\.json",
+          "webpack"
+        ]
       },
       "makers": [
         {
