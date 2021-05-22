@@ -74,6 +74,8 @@ export default class PluginManager {
 
 		this.statusHandlers = []
 		this.stageHandlers = []
+
+		this.mainWindow?.webContents.send("toRender", {type: "clearIframe"})
 	}
 
 	triggerStatusChange(newStatus: TimerStatus): void {
