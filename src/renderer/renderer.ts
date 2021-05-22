@@ -22,16 +22,26 @@ function getBlobURL(code: string, type: string) {
 
 window.api.receive("toRender", (event: IPC) => {
 	switch (event.type) {
-		case "pluginDisplay":
-			createPluginIFrame()
-			shoveTimingContainerToTop()
-			break;
 		case "updateStages":
 			if (event.data !== null && typeof event.data !== "string") timer.updateStages(event.data)
-			break;
+			break
+		case "setIframeContent":
+			if (typeof event.data !== "string") break
+			createPluginIFrame()
+			shoveTimingContainerToTop()
+			setIframeContent(event.data)
+			break
+		case "clearIframe":
+			break
+		case "startTimer":
+			break
+		case "pauseTimer":
+			break
+		case "stopTimer":
+			break
 		default:
 			console.error(`Unrecognized event type: '${event.type}'`)
-			break;
+			break
 	}
 })
 
@@ -39,7 +49,14 @@ function createPluginIFrame(): void {
 	const iframeContainer = document.getElementById("iframe-container")
 	if (iframeContainer !== null && iframeContainer !== undefined) {
 		// iframeContainer.innerHTML = `<iframe class="plugin-display" frameborder="0"></iframe>`
-		iframeContainer.innerHTML = `<iframe class="plugin-display"></iframe>`
+		iframeContainer.innerHTML = `<iframe id="plugin-iframe" class="plugin-display"></iframe>`
+	}
+}
+
+function setIframeContent(s: string): void {
+	const iframe = document.getElementById("plugin-iframe") as HTMLIFrameElement | null
+	if (iframe !== null && iframe !== undefined) {
+		iframe.src = getBlobURL(s, "text/html")
 	}
 }
 
