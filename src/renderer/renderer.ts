@@ -32,6 +32,8 @@ window.api.receive("toRender", (event: IPC) => {
 			setIframeContent(event.data)
 			break
 		case "clearIframe":
+			destroyPluginIFrame()
+			returnTimingContainerToCenter()
 			break
 		case "startTimer":
 			break
@@ -53,6 +55,13 @@ function createPluginIFrame(): void {
 	}
 }
 
+function destroyPluginIFrame() {
+	const iframeContainer = document.getElementById("iframe-container")
+	if (iframeContainer !== null && iframeContainer !== undefined) {
+		iframeContainer.innerHTML = ""
+	}
+}
+
 function setIframeContent(s: string): void {
 	const iframe = document.getElementById("plugin-iframe") as HTMLIFrameElement | null
 	if (iframe !== null && iframe !== undefined) {
@@ -64,6 +73,13 @@ function shoveTimingContainerToTop(): void {
 	const timingContainer = document.getElementById("timing-container")
 	if (timingContainer !== null && timingContainer !== undefined) {
 		timingContainer.style.marginBottom = "auto"
+	}
+}
+
+function returnTimingContainerToCenter(): void {
+	const timingContainer = document.getElementById("timing-container")
+	if (timingContainer !== null && timingContainer !== undefined) {
+		timingContainer.style.marginBottom = ""
 	}
 }
 

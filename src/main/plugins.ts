@@ -75,7 +75,12 @@ export default class PluginManager {
 		this.statusHandlers = []
 		this.stageHandlers = []
 
-		this.mainWindow?.webContents.send("toRender", {type: "clearIframe"})
+		// This will likely throw an error when shutting down the application
+		try {
+			this.mainWindow?.webContents.send("toRender", {type: "clearIframe"})
+		} catch (e: any) {
+			console.error(e)
+		}
 	}
 
 	triggerStatusChange(newStatus: TimerStatus): void {
