@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import { BrowserWindow, dialog, Menu } from "electron"
-import PluginManager from "./plugins"
+import PluginManager from "./plugins/manager"
 import { createMenu } from "./menu"
 import { Profile, ProfilePluginDef, Stage } from "../shared/types"
 

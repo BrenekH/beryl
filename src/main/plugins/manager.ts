@@ -1,7 +1,7 @@
 import * as fs from "fs"
 import * as path from "path"
 import { BrowserWindow, dialog, ipcMain } from "electron"
-import { ToPluginsIPC, ToPluginsIPCType, TimerStatus, ProfilePluginDef } from "../shared/types"
+import { ToPluginsIPC, ToPluginsIPCType, TimerStatus, ProfilePluginDef } from "../../shared/types"
 
 export default class PluginManager {
 	activatePluginDisplay: boolean
@@ -90,7 +90,6 @@ export default class PluginManager {
 
 				this.activePlugins.push(instantiatedPlugin)
 			})
-
 		})
 	}
 
@@ -122,12 +121,12 @@ export default class PluginManager {
 
 	triggerStatusChange(newStatus: TimerStatus): void {
 		this.statusHandlers.forEach(
-			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this operator.
+			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this keyword.
 			function(handler: (event: TimerStatus) => void) {
 				try {
 					handler(newStatus)
 				} catch(e: any) {
-					dialog.showErrorBox("Plugin Error", e)
+					dialog.showErrorBox("Plugin Error While Calling Status Change Handler", e)
 				}
 			}
 		)
@@ -135,12 +134,12 @@ export default class PluginManager {
 
 	triggerStageChange(stageInfo: any): void {
 		this.stageHandlers.forEach(
-			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this operator.
+			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this keyword.
 			function(handler: (event: any) => void) {
 				try {
 					handler(stageInfo)
 				} catch(e: any) {
-					dialog.showErrorBox("Plugin Error", e)
+					dialog.showErrorBox("Plugin Error While Calling Stage Change Handler", e)
 				}
 			}
 		)
