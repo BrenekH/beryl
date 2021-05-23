@@ -20,7 +20,7 @@ export function ImportBIPA(fileLocation: string) {
 
 		readFile(`${tmpPluginDir}/package.json`, (err: any, data: Buffer) => {
 			if (err) {
-				dialog.showErrorBox("Error Importing Plugin", err)
+				dialog.showErrorBox("Error Importing Plugin", err.toString())
 				return
 			}
 
@@ -39,7 +39,7 @@ export function ImportBIPA(fileLocation: string) {
 	})
 }
 
-function getOSPluginStorageDir(): string {
+export function getOSPluginStorageDir(): string {
 	let pluginStorageDir
 	if (platform === "win32") {
 		pluginStorageDir = `${env.LOCALAPPDATA}/Beryl/installedPlugins`

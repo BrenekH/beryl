@@ -30,7 +30,7 @@
 	],
 	"plugins": [
 		{
-			"plugin": "I:\\Programming\\Random\\beryl-sample-plugin",
+			"plugin": "beryl-sample-plugin",
 			"config": {
 				"text": "Hello, World!"
 			}

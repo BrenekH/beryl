@@ -1,7 +1,10 @@
 import * as fs from "fs"
 import * as path from "path"
 import { BrowserWindow, dialog, ipcMain } from "electron"
+import { getOSPluginStorageDir } from "./importer"
 import { ToPluginsIPC, ToPluginsIPCType, TimerStatus, ProfilePluginDef } from "../../shared/types"
+
+const pluginStorageDir = getOSPluginStorageDir()
 
 export default class PluginManager {
 	activatePluginDisplay: boolean
@@ -38,9 +41,14 @@ export default class PluginManager {
 
 	load(toLoad: ProfilePluginDef[]) {
 		toLoad.forEach((jsonPlugin: ProfilePluginDef) => {
-			// jsonPlugin.plugin should be the location of a valid npm package folder with a package.json
-			// TODO: Allow jsonPlugin.plugin to be a simple string that maps to a previously installed plugin
-			const packageJSONPath = path.resolve(jsonPlugin.plugin, "package.json")
+			let pluginPackageDir: string
+			if (jsonPlugin.plugin.includes("/") || jsonPlugin.plugin.includes("\\")) {
+				pluginPackageDir = jsonPlugin.plugin
+			} else {
+				pluginPackageDir = path.resolve(pluginStorageDir, jsonPlugin.plugin)
+			}
+
+			const packageJSONPath = path.resolve(pluginPackageDir, "package.json")
 
 			fs.readFile(packageJSONPath, (err: any, data: Buffer) => {
 				if (err) {
@@ -61,12 +69,12 @@ export default class PluginManager {
 					return
 				}
 
-				const pluginPath = path.resolve(jsonPlugin.plugin, packageJSON.main)
+				const pluginPath = path.resolve(pluginPackageDir, packageJSON.main)
 				let plugin: any
 				try {
 					plugin = require(/* webpackIgnore: true */ pluginPath)
 				} catch (e: any) {
-					dialog.showErrorBox("Plugin Error While Importing", e)
+					dialog.showErrorBox("Plugin Error While Importing", e.toString())
 					return
 				}
 
@@ -77,14 +85,14 @@ export default class PluginManager {
 				try {
 					instantiatedPlugin = new plugin.default(new PluginAPI(this), jsonPlugin.config)
 				} catch (e: any) {
-					dialog.showErrorBox("Plugin Error While Instantiating", e)
+					dialog.showErrorBox("Plugin Error While Instantiating", e.toString())
 					return
 				}
 
 				try {
 					instantiatedPlugin.activate()
 				} catch (e: any) {
-					dialog.showErrorBox("Plugin Error While Activating", e)
+					dialog.showErrorBox("Plugin Error While Activating", e.toString())
 					return
 				}
 
@@ -104,7 +112,7 @@ export default class PluginManager {
 			try {
 				plugin?.deactivate()
 			} catch(e: any) {
-				dialog.showErrorBox("Plugin Error While Deactivating", e)
+				dialog.showErrorBox("Plugin Error While Deactivating", e.toString())
 			}
 		}
 
@@ -126,7 +134,7 @@ export default class PluginManager {
 				try {
 					handler(newStatus)
 				} catch(e: any) {
-					dialog.showErrorBox("Plugin Error While Calling Status Change Handler", e)
+					dialog.showErrorBox("Plugin Error While Calling Status Change Handler", e.toString())
 				}
 			}
 		)
@@ -139,7 +147,7 @@ export default class PluginManager {
 				try {
 					handler(stageInfo)
 				} catch(e: any) {
-					dialog.showErrorBox("Plugin Error While Calling Stage Change Handler", e)
+					dialog.showErrorBox("Plugin Error While Calling Stage Change Handler", e.toString())
 				}
 			}
 		)
