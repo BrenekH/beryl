@@ -1,6 +1,6 @@
 import * as path from "path"
 import extract = require("extract-zip")
-import { mkdirSync } from "fs"
+import { mkdirpSync } from "fs-extra"
 import { tmpdir } from "os"
 import { platform, env } from "process"
 
@@ -25,7 +25,7 @@ function getOSPluginStorageDir(): string {
 	}
 
 	try {
-		mkdirSync(pluginStorageDir)
+		mkdirpSync(pluginStorageDir)
 	} catch (e: any) {}
 
 	return pluginStorageDir
