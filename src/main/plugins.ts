@@ -1,6 +1,6 @@
 import * as fs from "fs"
 import * as path from "path"
-import { BrowserWindow, ipcMain } from "electron"
+import { BrowserWindow, dialog, ipcMain } from "electron"
 import { ToPluginsIPC, ToPluginsIPCType, TimerStatus, ProfilePluginDef } from "../shared/types"
 
 export default class PluginManager {
@@ -62,14 +62,31 @@ export default class PluginManager {
 				}
 
 				const pluginPath = path.resolve(jsonPlugin.plugin, packageJSON.main)
-				const plugin = require(/* webpackIgnore: true */ pluginPath)
+				let plugin: any
+				try {
+					plugin = require(/* webpackIgnore: true */ pluginPath)
+				} catch (e: any) {
+					dialog.showErrorBox("Plugin Error While Importing", e)
+					return
+				}
 
 				// Remove plugin module from require cache (eval is used to prevent webpack from messing with the line)
 				eval("delete require.cache[require.resolve(pluginPath)]")
 
-				const instantiatedPlugin: Plugin = new plugin.default(new PluginAPI(this), jsonPlugin.config)
+				let instantiatedPlugin: Plugin
+				try {
+					instantiatedPlugin = new plugin.default(new PluginAPI(this), jsonPlugin.config)
+				} catch (e: any) {
+					dialog.showErrorBox("Plugin Error While Instantiating", e)
+					return
+				}
 
-				instantiatedPlugin.activate()
+				try {
+					instantiatedPlugin.activate()
+				} catch (e: any) {
+					dialog.showErrorBox("Plugin Error While Activating", e)
+					return
+				}
 
 				this.activePlugins.push(instantiatedPlugin)
 			})
@@ -85,13 +102,17 @@ export default class PluginManager {
 		const pluginAmount = this.activePlugins.length
 		for (let i = 0; i < pluginAmount; i++) {
 			const plugin = this.activePlugins.pop();
-			plugin?.deactivate()
+			try {
+				plugin?.deactivate()
+			} catch(e: any) {
+				dialog.showErrorBox("Plugin Error While Deactivating", e)
+			}
 		}
 
 		this.statusHandlers = []
 		this.stageHandlers = []
 
-		// This will likely throw an error when shutting down the application
+		// This can throw an error when shutting down the application
 		try {
 			this.mainWindow?.webContents.send("toRender", {type: "clearIframe"})
 		} catch (e: any) {
@@ -103,7 +124,11 @@ export default class PluginManager {
 		this.statusHandlers.forEach(
 			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this operator.
 			function(handler: (event: TimerStatus) => void) {
-				handler(newStatus)
+				try {
+					handler(newStatus)
+				} catch(e: any) {
+					dialog.showErrorBox("Plugin Error", e)
+				}
 			}
 		)
 	}
@@ -112,7 +137,11 @@ export default class PluginManager {
 		this.stageHandlers.forEach(
 			// A function is used here instead of an arrow function for the added security benefits that come with a redefined this operator.
 			function(handler: (event: any) => void) {
-				handler(stageInfo)
+				try {
+					handler(stageInfo)
+				} catch(e: any) {
+					dialog.showErrorBox("Plugin Error", e)
+				}
 			}
 		)
 	}
@@ -160,7 +189,7 @@ class PluginAPI {
 
 	// Pauses the timer
 	pause() {
-		// This isn't something I'm exposing to plugins since it's not even a timer feature currently
+		// This isn't something I'm exposing to plugins yet since it's not even an implemented timer feature
 		return
 		this._parent.mainWindow?.webContents.send("toRender", {type: "pauseTimer"})
 	}
