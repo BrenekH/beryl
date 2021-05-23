@@ -209,6 +209,7 @@ interface Plugin {
 	deactivate(): void
 }
 
-interface PackageJSON {
+export interface PackageJSON {
+	name: string
 	main: string
 }
