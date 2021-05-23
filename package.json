@@ -29,7 +29,8 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "extract-zip": "^2.0.1"
   },
   "config": {
     "forge": {
