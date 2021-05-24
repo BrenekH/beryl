@@ -4,6 +4,7 @@ import { BrowserWindow, dialog, Menu } from "electron"
 import PluginManager from "./plugins/manager"
 import { createMenu } from "./menu"
 import { Profile, ProfilePluginDef, Stage } from "../shared/types"
+import { ImportBIPA } from "./plugins/importer"
 
 export default class Main {
 	static mainWindow: Electron.BrowserWindow | null
@@ -55,17 +56,21 @@ export default class Main {
 		Menu.setApplicationMenu(createMenu(Main.mainWindow))
 	}
 
-	static main(app: Electron.App, browserWindow: typeof BrowserWindow) {
+	static main(app: Electron.App, browserWindow: typeof BrowserWindow, startProfile: string | null, installPlugin: string | null) {
 		Main.BrowserWindow = browserWindow
 		Main.application = app
 
 		Main.application.on('window-all-closed', Main.onWindowAllClosed)
 		Main.application.on('ready', Main.onReady)
 
+		if (installPlugin !== null) ImportBIPA(installPlugin)
+
 		Main.pluginManager = new PluginManager()
 
 		Main.mainFunc = () => {
 			Main.pluginManager.setMainWindow(Main.mainWindow as BrowserWindow)
+
+			if (startProfile !== null) this.loadProfile(startProfile)
 		}
 	}
 

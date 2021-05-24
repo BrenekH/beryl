@@ -41,7 +41,11 @@
           "node_modules",
           "scripts",
           "src",
+          "out",
+          "innoOut",
+          ".vscode",
           "\\.gitignore",
+          "installer.iss",
           "sample_profile\\.json",
           "tsconfig\\.json",
           "webpack"

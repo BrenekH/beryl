@@ -1,4 +1,18 @@
-import { app, BrowserWindow } from 'electron'
-import Main from './main'
+import * as path from "path"
+import { app, BrowserWindow } from "electron"
+import { argv } from "process"
+import Main from "./main"
 
-Main.main(app, BrowserWindow)
+let lastArg = argv[argv.length - 1]
+
+switch (path.extname(lastArg)) {
+	case ".bipa":
+		Main.main(app, BrowserWindow, null, lastArg)
+		break
+	case ".json":
+		Main.main(app, BrowserWindow, lastArg, null)
+		break
+	default:
+		Main.main(app, BrowserWindow, null, null)
+		break
+}
