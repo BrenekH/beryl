@@ -120,5 +120,4 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - run: ISCC
-        shell: cmd
+      - run: ISCC installer.iss
