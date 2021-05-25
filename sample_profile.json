@@ -1,7 +1,7 @@
 {
     "stages": [
         {
-            "text": "AUTONOMOUS",
+            "text": "Stage 1",
             "foreground_color": "#fff",
             "background_color": "#0a0",
             "begin_stage_sound": null,
@@ -10,7 +10,7 @@
             "offset": 10
         },
         {
-            "text": "TELEOP",
+            "text": "Stage 2",
             "foreground_color": "#fff",
             "background_color": "#0a0",
             "begin_stage_sound": null,
@@ -19,7 +19,7 @@
             "offset": 5
         },
         {
-            "text": "END GAME",
+            "text": "Stage 3",
             "foreground_color": "#000",
             "background_color": "#dd0",
             "begin_stage_sound": null,
