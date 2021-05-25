@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: beryl-macos-standalone-archive
-          path: ${{ github.workspace }}/out/make/darwin/x64
+          path: ${{ github.workspace }}/out/make/zip/darwin/x64/beryl-darwin-x64-0.0.1.zip
 
   make-linux:
     # needs: [compile]
@@ -96,3 +96,16 @@ jobs:
 
       - name: Show directory structure
         run: dir /s
+        shell: cmd
+
+      - name: Zip standalone binary archive
+        uses: vimtor/action-zip@v1
+        with:
+          files: ${{ github.workspace }}/out/beryl-win32-x64
+          dest: windows-standalone.zip
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: beryl-windows-standalone-archive
+          path: ${{ github.workspace }}/windows-standalone.zip
