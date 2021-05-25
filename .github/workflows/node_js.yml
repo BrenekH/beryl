@@ -60,8 +60,8 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Run Electron Forge make
-        run: npm run make
+      - name: Package application
+        run: npm run package
 
   make-windows:
     needs: [compile]
