@@ -101,7 +101,7 @@ jobs:
       - name: Zip standalone binary archive
         uses: vimtor/action-zip@v1
         with:
-          files: ${{ github.workspace }}/out/beryl-win32-x64
+          files: ${{ github.workspace }}\out\beryl-win32-x64\
           dest: windows-standalone.zip
 
       - name: Upload artifact
