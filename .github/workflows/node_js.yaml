@@ -53,7 +53,7 @@ jobs:
           name: beryl-macos-standalone-archive
           path: ${{ github.workspace }}/out/make/zip/darwin/x64
 
-  make-linux:
+  package-linux:
     needs: [compile]
 
     runs-on: ubuntu-latest
@@ -84,7 +84,7 @@ jobs:
           name: beryl-linux-standalone-archive
           path: ${{ github.workspace }}/linux-standalone.tar.gz
 
-  make-windows:
+  package-windows:
     needs: [compile]
 
     runs-on: windows-latest
@@ -122,6 +122,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # TODO: Replace compiling with downloading result artifact from package-windows
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
