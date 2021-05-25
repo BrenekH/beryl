@@ -1,39 +1,39 @@
 {
-	"stages": [
-		{
-			"text": "AUTONOMOUS",
-			"foreground_color": "#fff",
-			"background_color": "#0a0",
-			"begin_stage_sound": null,
-			"end_stage_sound": null,
-			"length": 5,
-			"offset": 10
-		},
-		{
-			"text": "TELEOP",
-			"foreground_color": "#fff",
-			"background_color": "#0a0",
-			"begin_stage_sound": null,
-			"end_stage_sound": null,
-			"length": 5,
-			"offset": 5
-		},
-		{
-			"text": "END GAME",
-			"foreground_color": "#000",
-			"background_color": "#dd0",
-			"begin_stage_sound": null,
-			"end_stage_sound": null,
-			"length": 5,
-			"offset": 0
-		}
-	],
-	"plugins": [
-		{
-			"plugin": "beryl-sample-plugin",
-			"config": {
-				"text": "Hello, World!"
-			}
-		}
-	]
+    "stages": [
+        {
+            "text": "AUTONOMOUS",
+            "foreground_color": "#fff",
+            "background_color": "#0a0",
+            "begin_stage_sound": null,
+            "end_stage_sound": null,
+            "length": 5,
+            "offset": 10
+        },
+        {
+            "text": "TELEOP",
+            "foreground_color": "#fff",
+            "background_color": "#0a0",
+            "begin_stage_sound": null,
+            "end_stage_sound": null,
+            "length": 5,
+            "offset": 5
+        },
+        {
+            "text": "END GAME",
+            "foreground_color": "#000",
+            "background_color": "#dd0",
+            "begin_stage_sound": null,
+            "end_stage_sound": null,
+            "length": 5,
+            "offset": 0
+        }
+    ],
+    "plugins": [
+        {
+            "plugin": "beryl-sample-plugin",
+            "config": {
+                "text": "Hello, World!"
+            }
+        }
+    ]
 }
