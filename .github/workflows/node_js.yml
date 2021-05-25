@@ -102,10 +102,10 @@ jobs:
         shell: cmd
 
       - name: Zip standalone binary archive
-        uses: vimtor/action-zip@v1
+        uses: ihiroky/archive-action@v1
         with:
-          files: ${{ github.workspace }}\out\beryl-win32-x64\
-          dest: windows-standalone.zip
+          root_dir: ${{ github.workspace }}\out\beryl-win32-x64\
+          file_path: windows-standalone.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
