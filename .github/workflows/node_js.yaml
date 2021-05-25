@@ -116,7 +116,7 @@ jobs:
           path: ${{ github.workspace }}/windows-standalone.zip
 
   create-windows-installer:
-    # needs: [compile]
+    needs: [compile]
     runs-on: windows-latest
 
     steps:
