@@ -44,6 +44,9 @@ jobs:
       - name: Run Electron Forge make
         run: npm run make
 
+      - name: Show directory structure
+        run: ls -lR
+
   make-linux:
     needs: [compile]
 
@@ -63,6 +66,9 @@ jobs:
       - name: Package application
         run: npm run package
 
+      - name: Show directory structure
+        run: ls -lR
+
   make-windows:
     needs: [compile]
 
@@ -81,3 +87,6 @@ jobs:
 
       - name: Run Electron Forge make
         run: npm run make
+
+      - name: Show directory structure
+        run: echo "Hi"
