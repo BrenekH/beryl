@@ -75,7 +75,7 @@ jobs:
       - name: Create standalone binary archive
         uses: ihiroky/archive-action@v1
         with:
-          root_dir: out/beryl-linux-x64/
+          root_dir: out/
           file_path: linux-standalone.tar.gz
 
       - name: Upload artifact
