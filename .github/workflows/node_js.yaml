@@ -134,14 +134,22 @@ jobs:
       - name: Package application
         run: npm run package
 
+      - name: Set MY_VERSION env var to tag
+        if: startsWith(github.ref, 'refs/tags/')
+        run: echo "MY_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+
+      - name: Set MY_VERSION env var to sha
+        if: "!startsWith(github.ref, 'refs/tags/')"
+        run: echo "MY_VERSION=${{ github.sha }}" >> $GITHUB_ENV
+
       - name: Compile installer
-        run: ISCC installer.iss
+        run: ISCC /DMyAppVersion=${{ env.MY_VERSION }} installer.iss
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: beryl-windows-installer
-          path: ${{ github.workspace }}/innoOut/beryl-setup.exe
+          path: ${{ github.workspace }}/innoOut
 
   deploy-to-gh-releases:
     name: Deploy to GitHub Releases
