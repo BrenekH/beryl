@@ -104,7 +104,7 @@ jobs:
       - name: Zip standalone binary archive
         uses: ihiroky/archive-action@v1
         with:
-          root_dir: ${{ github.workspace }}\out\beryl-win32-x64\
+          root_dir: ${{ github.workspace }}/out/beryl-win32-x64/
           file_path: windows-standalone.zip
 
       - name: Upload artifact
