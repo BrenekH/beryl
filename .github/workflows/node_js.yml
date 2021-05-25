@@ -42,10 +42,16 @@ jobs:
         run: npm ci
 
       - name: Run Electron Forge make
-        run: npm run make
+        run: npm run make # ./out/beryl-darwin-x64/
 
       - name: Show directory structure
         run: ls -lR
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: beryl-macos-standalone-archive
+          path: ${{ github.workspace }}/out/make/darwin/x64/beryl-darwin-x64-0.0.1.zip
 
   make-linux:
     # needs: [compile]
@@ -64,7 +70,7 @@ jobs:
         run: npm ci
 
       - name: Package application
-        run: npm run package
+        run: npm run package # ./out/beryl-linux-x64/
 
       - name: Show directory structure
         run: ls -lR
