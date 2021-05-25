@@ -120,5 +120,5 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - run: dir ${{ env.PROGRAMFILES(x86) }}
+      - run: ISCC
         shell: cmd
