@@ -42,7 +42,7 @@ jobs:
         run: npm ci
 
       - name: Package application
-        run: npm run package # ./out/beryl-darwin-x64/ or ./out/make/darwin/x64/<zip file>
+        run: npm run make # ./out/beryl-darwin-x64/ or ./out/make/darwin/x64/<zip file>
 
       - name: Show directory structure
         run: ls -lR
