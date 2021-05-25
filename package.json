@@ -37,12 +37,13 @@
       "packagerConfig": {
         "icon": "./src/icons/icon",
         "ignore": [
+          ".github",
+          ".vscode",
           "node_modules",
+          "innoOut",
+          "out",
           "scripts",
           "src",
-          "out",
-          "innoOut",
-          ".vscode",
           "\\.gitignore",
           "installer.iss",
           "sample_profile\\.json",

@@ -41,8 +41,11 @@ jobs:
       - name: Install locked dependencies
         run: npm ci
 
-      - name: Package application
-        run: npm run make # ./out/beryl-darwin-x64/ or ./out/make/darwin/x64/<zip file>
+      - name: Compile Typescript
+        run: npm run compile
+
+      - name: Make application
+        run: npm run make # ./out/beryl-darwin-x64/ or ./out/make/zip/darwin/x64/<zip file>
 
       - name: Show directory structure
         run: ls -lR
@@ -51,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: beryl-macos-standalone-archive
-          path: ${{ github.workspace }}/out/make/zip/darwin/x64/beryl-darwin-x64-0.0.1.zip
+          path: ${{ github.workspace }}/out/make/zip/darwin/x64
 
   make-linux:
     # needs: [compile]
