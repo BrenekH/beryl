@@ -47,9 +47,6 @@ jobs:
       - name: Make application
         run: npm run make # ./out/beryl-darwin-x64/ or ./out/make/zip/darwin/x64/<zip file>
 
-      - name: Show directory structure
-        run: ls -lR
-
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
@@ -75,8 +72,17 @@ jobs:
       - name: Package application
         run: npm run package # ./out/beryl-linux-x64/
 
-      - name: Show directory structure
-        run: ls -lR
+      - name: Create standalone binary archive
+        uses: ihiroky/archive-action@v1
+        with:
+          root_dir: out/beryl-linux-x64/
+          file_path: linux-standalone.tar.gz
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: beryl-linux-standalone-archive
+          path: ${{ github.workspace }}/linux-standalone.tar.gz
 
   make-windows:
     # needs: [compile]
@@ -96,10 +102,6 @@ jobs:
 
       - name: Package application
         run: npm run package
-
-      - name: Show directory structure
-        run: dir /s
-        shell: cmd
 
       - name: Zip standalone binary archive
         uses: ihiroky/archive-action@v1
