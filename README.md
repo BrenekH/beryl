@@ -19,13 +19,11 @@ Download the tarball from the [latest release page](https://github.com/BrenekH/b
 Beryl uses profiles to define the different stages for the timer to run, as well as any plugins to use and their configurations.
 A [sample profile](https://github.com/BrenekH/beryl/tree/master/sample_profile.json) is available in this repository.
 
-<!-- TODO: Replace example.com with actual wiki page -->
-More information on profile files, check out the [wiki](https://example.com).
+More information on profile files, check out the [wiki](https://github.com/BrenekH/beryl/wiki/Profiles).
 
 ## Plugin Development
 
-<!-- TODO: Replace example.com with actual wiki page -->
-Head over to the [wiki](https://example.com) to learn more about how to create plugins for Beryl.
+Head over to the [wiki](https://github.com/BrenekH/beryl/wiki/Plugins) to learn more about how to create plugins for Beryl.
 
 ## License
 
