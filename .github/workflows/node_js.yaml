@@ -24,9 +24,16 @@ jobs:
         run: npm ci
 
       - run: npm run compile
-      
-  make-macos:
+
+  test:
+    name: Unimplemented Test
+    runs-on: ubuntu-latest
     needs: [compile]
+    steps:
+      - run: echo "Not Yet Implemented"
+
+  make-macos:
+    needs: [test]
 
     runs-on: macos-latest
 
@@ -67,7 +74,7 @@ jobs:
           path: ${{ github.workspace }}/macos-standalone
 
   package-linux:
-    needs: [compile]
+    needs: [test]
 
     runs-on: ubuntu-latest
 
@@ -106,7 +113,7 @@ jobs:
           path: ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-linux-amd64-standalone.tar.gz
 
   package-windows:
-    needs: [compile]
+    needs: [test]
 
     runs-on: windows-latest
 
@@ -147,7 +154,7 @@ jobs:
           path: ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-windows-amd64-standalone.zip
 
   create-windows-installer:
-    needs: [compile]
+    needs: [test]
     runs-on: windows-latest
 
     steps:
