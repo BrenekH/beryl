@@ -225,7 +225,7 @@ jobs:
     name: Release on GitHub
     runs-on: ubuntu-latest
     needs: [make-macos, package-linux, package-windows, create-windows-installer]
-    if: startsWith(github.ref, 'refs/tag/v')
+    # if: startsWith(github.ref, 'refs/tag/v')
 
     steps:
       - name: Download build artifacts
@@ -244,7 +244,6 @@ jobs:
         # want to remove the first character of the tag which should be a 'v' so here the length is 11.
 
       - name: Create Release with Assets
-        id: release
         uses: softprops/action-gh-release@v1
         with:
           name: Version ${{ env.TAG_VERSION }}
