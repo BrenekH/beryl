@@ -72,25 +72,25 @@ jobs:
       - name: Package application
         run: npm run package # ./out/beryl-linux-x64/
 
-      - name: Set MY_VERSION env var to tag
+      - name: Set VERSION_USED env var to tag
         if: startsWith(github.ref, 'refs/tags/')
-        run: echo "MY_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+        run: echo "VERSION_USED=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
 
-      - name: Set MY_VERSION env var to sha
+      - name: Set VERSION_USED env var to sha
         if: "!startsWith(github.ref, 'refs/tags/')"
-        run: echo "MY_VERSION=${{ github.sha }}" >> $GITHUB_ENV
+        run: echo "VERSION_USED=${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Create standalone binary archive
         uses: ihiroky/archive-action@v1
         with:
           root_dir: out/
-          file_path: beryl-${{ env.MY_VERSION }}-linux-amd64-standalone.tar.gz
+          file_path: beryl-${{ env.VERSION_USED }}-linux-amd64-standalone.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: beryl-linux-standalone-archive
-          path: ${{ github.workspace }}/beryl-${{ env.MY_VERSION }}-linux-amd64-standalone.tar.gz
+          path: ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-linux-amd64-standalone.tar.gz
 
   package-windows:
     needs: [compile]
@@ -111,25 +111,27 @@ jobs:
       - name: Package application
         run: npm run package
 
-      - name: Set MY_VERSION env var to tag
+      - name: Set VERSION_USED env var to tag
         if: startsWith(github.ref, 'refs/tags/')
-        run: echo "MY_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+        run: echo "VERSION_USED=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+        shell: bash
 
-      - name: Set MY_VERSION env var to sha
+      - name: Set VERSION_USED env var to sha
         if: "!startsWith(github.ref, 'refs/tags/')"
-        run: echo "MY_VERSION=${{ github.sha }}" >> $GITHUB_ENV
+        run: echo "VERSION_USED=${{ github.sha }}" >> $GITHUB_ENV
+        shell: bash
 
       - name: Zip standalone binary archive
         uses: ihiroky/archive-action@v1
         with:
           root_dir: out/beryl-win32-x64/
-          file_path: beryl-${{ env.MY_VERSION }}-windows-amd64-standalone.zip
+          file_path: beryl-${env:VERSION_USED}-windows-amd64-standalone.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: beryl-windows-standalone-archive
-          path: ${{ github.workspace }}/beryl-${{ env.MY_VERSION }}-windows-amd64-standalone.zip
+          path: ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-windows-amd64-standalone.zip
 
   create-windows-installer:
     needs: [compile]
@@ -150,18 +152,18 @@ jobs:
       - name: Package application
         run: npm run package
 
-      - name: Set MY_VERSION env var to tag
+      - name: Set VERSION_USED env var to tag
         if: startsWith(github.ref, 'refs/tags/')
-        run: echo "MY_VERSION=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
+        run: echo "VERSION_USED=$(echo ${GITHUB_REF:10})" >> $GITHUB_ENV
         shell: bash
 
-      - name: Set MY_VERSION env var to sha
+      - name: Set VERSION_USED env var to sha
         if: "!startsWith(github.ref, 'refs/tags/')"
-        run: echo "MY_VERSION=${{ github.sha }}" >> $GITHUB_ENV
+        run: echo "VERSION_USED=${{ github.sha }}" >> $GITHUB_ENV
         shell: bash
 
       - name: Compile installer
-        run: ISCC /DMyAppVersion=${env:MY_VERSION} installer.iss
+        run: ISCC /DMyAppVersion=${env:VERSION_USED} installer.iss
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
