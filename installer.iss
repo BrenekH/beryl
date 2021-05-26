@@ -2,13 +2,16 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Beryl"
-#define MyAppVersion "0.0.1"
 #define MyAppPublisher "Brenek Harrison"
 #define MyAppURL "https://github.com/BrenekH/beryl"
 #define MyAppExeName "beryl.exe"
 #define MyAppAssocName MyAppName + " Plugin Archive"
 #define MyAppAssocExt ".bipa"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
+
+#ifndef MyAppVersion
+#define MyAppVersion "0.0.1"
+#endif
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -29,7 +32,7 @@ LicenseFile=LICENSE
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=innoOut
-OutputBaseFilename=beryl-setup
+OutputBaseFilename=beryl-{#MyAppVersion}-windows-amd64-installer
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
