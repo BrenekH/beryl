@@ -158,6 +158,8 @@ jobs:
         if: "!startsWith(github.ref, 'refs/tags/')"
         run: echo "MY_VERSION=${{ github.sha }}" >> $GITHUB_ENV
 
+      - run: echo ${{ env.MY_VERSION }}
+
       - name: Compile installer
         run: ISCC /DMyAppVersion=${{ env.MY_VERSION }} installer.iss
 
