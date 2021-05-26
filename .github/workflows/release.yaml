@@ -3,7 +3,7 @@ name: Create GitHub Release
 
 on:
   push:
-    tags: 'v*.*.*'
+    tags: '*.*.*'
 
 jobs:
   create-release:
@@ -23,7 +23,7 @@ jobs:
         id: release
         uses: softprops/action-gh-release@v1
         with:
-          name: Test ${{ env.TAG_USED }}
+          name: Version ${{ env.TAG_USED }}
           draft: false
           prerelease: ${{ env.PREREL }}
         env:
