@@ -225,6 +225,7 @@ jobs:
     name: Release on GitHub
     runs-on: ubuntu-latest
     needs: [make-macos, package-linux, package-windows, create-windows-installer]
+    # I embedded ifs into each step instead of a single if on the job because GH Actions decided to ignore that one.
 
     steps:
       - name: Download build artifacts
