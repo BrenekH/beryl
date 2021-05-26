@@ -56,7 +56,10 @@ jobs:
         run: echo "VERSION_USED=${{ github.sha }}" >> $GITHUB_ENV
 
       - name: Rename packaged zip file
-        run: mv ${{ github.workspace }}/out/make/zip/darwin/x64/*.zip ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-MacOS-standalone.zip
+        run: |
+          ls ${{ github.workspace }}/out/make/zip/darwin/x64
+          mv ${{ github.workspace }}/out/make/zip/darwin/x64/*.zip ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-MacOS-standalone.zip
+          ls ${{ github.workspace }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
