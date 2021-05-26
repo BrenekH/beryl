@@ -4,14 +4,11 @@ on: [push, pull_request]
 
 jobs:
   compile:
-    name: Compile using webpack production mode
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
-    runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -19,6 +16,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install locked dependencies
         run: npm ci
@@ -34,9 +39,7 @@ jobs:
 
   make-macos:
     needs: [test]
-
     runs-on: macos-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -44,6 +47,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node14.x-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install locked dependencies
         run: npm ci
@@ -75,9 +86,7 @@ jobs:
 
   package-linux:
     needs: [test]
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -85,6 +94,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node14.x-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install locked dependencies
         run: npm ci
@@ -114,9 +131,7 @@ jobs:
 
   package-windows:
     needs: [test]
-
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -124,6 +139,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node14.x-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install locked dependencies
         run: npm ci
@@ -156,7 +179,6 @@ jobs:
   create-windows-installer:
     needs: [test]
     runs-on: windows-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -165,6 +187,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
+
+      - name: Cache Node Modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node14.x-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install locked dependencies
         run: npm ci
@@ -196,7 +226,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [create-windows-installer, make-macos, package-linux, package-windows]
     if: startsWith(github.ref, 'refs/tags/t')
-
     steps:
       - name: Download build artifacts
         uses: actions/download-artifact@v2

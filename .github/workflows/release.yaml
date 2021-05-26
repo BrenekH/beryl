@@ -1,3 +1,4 @@
+# TODO: Move this functionality to node_js.yaml to keep everything together
 name: Create GitHub Release
 
 on:
