@@ -125,7 +125,7 @@ jobs:
         uses: ihiroky/archive-action@v1
         with:
           root_dir: out/beryl-win32-x64/
-          file_path: beryl-${env:VERSION_USED}-windows-amd64-standalone.zip
+          file_path: beryl-${{ env.VERSION_USED }}-windows-amd64-standalone.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
