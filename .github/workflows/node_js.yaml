@@ -58,7 +58,7 @@ jobs:
       - name: Rename packaged zip file
         run: |
           mkdir -p ${{ github.workspace }}/macos-standalone
-          mv ${{ github.workspace }}/out/make/zip/darwin/x64/*.zip ${{ github.workspace }}/macos-standalone/beryl-${{ env.VERSION_USED }}-MacOS-standalone.zip
+          mv ${{ github.workspace }}/out/make/zip/darwin/x64/*.zip ${{ github.workspace }}/macos-standalone/beryl-${{ env.VERSION_USED }}-macos-amd64-standalone.zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
