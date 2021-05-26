@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   compile:
-    name: Test Webpack Production Compile
+    name: Compile using webpack production mode
     strategy:
       matrix:
         node-version: [12.x, 14.x, 16.x]
