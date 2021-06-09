@@ -5,9 +5,12 @@
 #define MyAppPublisher "Brenek Harrison"
 #define MyAppURL "https://github.com/BrenekH/beryl"
 #define MyAppExeName "beryl.exe"
-#define MyAppAssocName MyAppName + " Plugin Archive"
-#define MyAppAssocExt ".bipa"
-#define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
+#define BipaAssocName MyAppName + " Plugin Archive"
+#define BipaFileExt ".bipa"
+#define BipaAssocKey StringChange(BipaAssocName, " ", "") + BipaFileExt
+#define BProfAssocName MyAppName + " Profile"
+#define BProfFileExt ".berylprof"
+#define BProfAssocKey StringChange(BProfAssocName, " ", "") + BProfFileExt
 
 #ifndef MyAppVersion
 #define MyAppVersion "0.0.1"
@@ -49,10 +52,18 @@ Source: "out\beryl-win32-x64\*"; DestDir: "{app}"; Flags: ignoreversion recurses
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+; .bipa file association
+Root: HKA; Subkey: "Software\Classes\{#BipaFileExt}\OpenWithProgids"; ValueType: string; ValueName: "{#BipaAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
+Root: HKA; Subkey: "Software\Classes\{#BipaAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#BipaAssocName}"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\{#BipaAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
+Root: HKA; Subkey: "Software\Classes\{#BipaAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+
+; .berylprof file association
+Root: HKA; Subkey: "Software\Classes\{#BProfFileExt}\OpenWithProgids"; ValueType: string; ValueName: "{#BProfAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
+Root: HKA; Subkey: "Software\Classes\{#BProfAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#BProfAssocName}"; Flags: uninsdeletekey
+Root: HKA; Subkey: "Software\Classes\{#BProfAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
+Root: HKA; Subkey: "Software\Classes\{#BProfAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+
 Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".myp"; ValueData: ""
 
 [Icons]
