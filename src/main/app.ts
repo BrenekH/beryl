@@ -9,6 +9,7 @@ switch (path.extname(lastArg)) {
 	case ".bipa":
 		Main.main(app, BrowserWindow, null, lastArg)
 		break
+	case ".berylprof":
 	case ".json":
 		Main.main(app, BrowserWindow, lastArg, null)
 		break
