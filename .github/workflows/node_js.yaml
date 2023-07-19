@@ -79,7 +79,7 @@ jobs:
           mv ${{ github.workspace }}/out/make/zip/darwin/x64/*.zip ${{ github.workspace }}/macos-standalone/beryl-${{ env.VERSION_USED }}-macos-amd64-standalone.zip
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: beryl-macos-standalone-archive
           path: ${{ github.workspace }}/macos-standalone
@@ -124,7 +124,7 @@ jobs:
           file_path: beryl-${{ env.VERSION_USED }}-linux-amd64-standalone.tar.gz
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: beryl-linux-standalone-archive
           path: ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-linux-amd64-standalone.tar.gz
@@ -171,7 +171,7 @@ jobs:
           file_path: beryl-${{ env.VERSION_USED }}-windows-amd64-standalone.zip
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: beryl-windows-standalone-archive
           path: ${{ github.workspace }}/beryl-${{ env.VERSION_USED }}-windows-amd64-standalone.zip
@@ -216,7 +216,7 @@ jobs:
         run: ISCC /DMyAppVersion=${env:VERSION_USED} installer.iss
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: beryl-windows-installer
           path: ${{ github.workspace }}/innoOut
